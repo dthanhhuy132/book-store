@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* font face */
+
+@font-face {
+  font-family: "GilroySemibold";
+  src: local("Gilroy"), url(../public/font/SVN-Gilroy\ SemiBold.otf) format("truetype");
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: local("Gilroy"), url(../public/font/SVN-Gilroy\ Light.otf) format("truetype");
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Gilroy", sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar:hover {
+  cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #891a1c;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.input-quantity::-webkit-outer-spin-button,
+.input-quantity::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+thead th {
+  font-weight: 500 !important;
+}
+
+.zalo-chat-widget {
+  z-index: 100 !important;
+}
+
+/* shop page */
+/* scroll in shop page */
+.shop-container {
+  max-height: 91vh;
+  /* scroll-padding-top: 15vh; */
+  /* width: 100%; */
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: overlay;
+}
+
+.shop-item {
+  scroll-snap-align: start;
+}
+
+@media (max-width: 601px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    transition: all 0.2s ease;
+  }
+}
+
+.my-masonry-grid {
+  margin-left: 0px !important;
+}
+
+.toastify-font-dth {
+  font-family: "Gilroy";
+  color: red;
+}
+
+/* drop-down */
+.Dropdown-control {
+  border-radius: 4px;
+}

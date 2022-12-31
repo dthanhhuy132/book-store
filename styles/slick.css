@@ -1,0 +1,159 @@
+.slick-prev::before {
+   content: url("https://spao.com/morenvyimg/main_arrow_left2.png");
+}
+.slick-next:before {
+   content: url("https://spao.com/morenvyimg/main_arrow_right2.png");
+}
+.slick-prev {
+   left: -50px;
+}
+
+.slick-next {
+   right: -32px;
+}
+
+@media (max-width: 640px) {
+   .slick-prev::before,
+   .slick-next:before {
+      content: "";
+      display: none;
+   }
+
+   .slick-next {
+      right: 0px;
+   }
+}
+
+.slick-thumb-custom {
+   border: 1px solid rgb(231, 231, 231);
+   background: transparent;
+   height: 6px;
+   position: relative;
+   border-radius: 20px;
+   width: 100%;
+   margin: -40px auto 0;
+   margin-top: -30px;
+   transition: all;
+}
+
+.slick-thumb-custom li:nth-child(1) {
+   position: absolute;
+   top: 0;
+   left: 0;
+   border-radius: 20px;
+   margin: 0;
+
+   background: black;
+   width: 0%;
+   height: 100%;
+   transition: width 0.2s ease;
+}
+
+.slick-slide.slick-center {
+   /* transform: scale(1.3); */
+   border-radius: 20px;
+   object-fit: fill;
+}
+/*  */
+
+/* custom slick for center mode */
+.slick-custom-center-dth .slick-slide.slick-center {
+   transform: scale(1.3);
+   position: relative;
+   z-index: 10000;
+   border-radius: 20px;
+   object-fit: fill;
+}
+.slick-custom-center-dth .slick-slide img {
+   filter: brightness(0.15);
+}
+.slick-custom-center-dth .slick-slide.slick-center img {
+   /* border-radius: 20px; */
+   filter: brightness(1);
+}
+
+.slick-custom-center-dth .slick-list {
+   overflow: unset;
+}
+
+.slick-custom-center-dth .slick-prev,
+.slick-custom-center-dth .slick-next {
+   width: 70px;
+   height: 70px;
+}
+
+.slick-custom-center-dth .slick-prev:before {
+   content: "";
+   background-color: gray;
+   mask: url("../public/images/slick/next.svg") no-repeat 50% 50%;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   position: absolute;
+   z-index: 1000;
+   transform: rotate(180deg);
+}
+
+.slick-custom-center-dth .slick-next:before {
+   content: "";
+   background-color: gray;
+   mask: url("../public/images/slick/next.svg") no-repeat 50% 50%;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   position: absolute;
+   z-index: 1000;
+}
+
+.slick-custom-center-dth .slick-list {
+   overflow: unset;
+}
+
+.slick-custom-center-dth .slick-prev {
+   left: -50px;
+   z-index: 1000;
+}
+
+.slick-custom-center-dth .slick-next {
+   right: -50px;
+   z-index: 1000;
+}
+
+/* slick progress bar */
+
+.progress-bar-dth {
+   position: relative;
+   height: 6px;
+   width: 100%;
+   /* border: 1px solid #f4a261; */
+   border-radius: 15px;
+   z-index: 999999999999999999999999;
+}
+.progress-bar-dth .color-progress-bar-dth {
+   position: absolute;
+   background-color: red;
+   width: 0px;
+   height: 4px;
+   border-radius: 15px;
+   animation: progres 5s infinite linear;
+   z-index: 9999999999999999999990999;
+}
+@keyframes progres {
+   0% {
+      width: 0%;
+   }
+   10% {
+      width: 10%;
+   }
+   20% {
+      width: 20%;
+   }
+   30% {
+      width: 30%;
+   }
+   100% {
+      width: 100%;
+   }
+} ;

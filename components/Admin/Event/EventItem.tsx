@@ -43,11 +43,11 @@ export default function EventTableBody({eventItem, handleClickEditEvent, renderE
    return (
       <tr key={eventItem._id}>
          {/* name */}
-         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+         <td className='px-5 py-5 border-b border-gray-200 bg-white'>
             <span>{eventItem.title}</span>
          </td>
          {/* image */}
-         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+         <td className='px-5 py-5 border-b border-gray-200 bg-white'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-1'>
                {eventItem.images.map((img) => (
                   <img src={img} className='w-[200px]' key={img}></img>
@@ -56,7 +56,7 @@ export default function EventTableBody({eventItem, handleClickEditEvent, renderE
          </td>
 
          {/* link liên kết */}
-         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+         <td className='px-5 py-5 border-b border-gray-200 bg-white'>
             <div className='grid grid-cols-1'>
                {getLinkBannerPanel(eventItem.description).map((eventLink, index) => (
                   <p className='' key={index}>

@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import Dropdown from 'react-dropdown';
 import {ProductValidateSchema} from './productValidateSchema';
 import ProductCreateDescription from './ProductCreateDescription';
+import InputPrice from './InputPrice';
 
 export default function ModalCreateProduct({
    ok = () => {},
@@ -30,14 +31,6 @@ export default function ModalCreateProduct({
    const inputFilesRef = useRef(null);
    const inputFilesAvatarRef = useRef(null);
 
-   const [sizeQuantity, setSizeQuantity] = useState({
-      S: productEditing?.size['S'] || 0,
-      M: productEditing?.size['M'] || 0,
-      L: productEditing?.size['L'] || 0,
-      XL: productEditing?.size['XL'] || 0,
-      XXL: productEditing?.size['XXL'] || 0,
-   });
-
    // find init category for product
    const [categoryName, setCategoryName] = useState(
       categoryList.filter((item) => item.id === productEditing?.categoryId)[0]?.name || ''
@@ -46,12 +39,15 @@ export default function ModalCreateProduct({
    const initProductValue = {
       name: productEditing?.name || '',
       description: productEditing?.description || '',
-      price: productEditing?.price || 100000,
+      price: productEditing?.price || 0,
       colorList: productEditing?.colorList?.toString() || '',
       avatar: productEditing?.pictures[0] || '',
       pictures: productEditing?.pictures.slice(1, productEditing.pictures.length) || '',
       categoryId: productEditing?.categoryId || '', //using state
+      quantity: productEditing?.quantity || 0,
    };
+
+   // console.log('productEditing la gi nao', productEditing);
 
    const formik = useFormik({
       initialValues: initProductValue,
@@ -61,14 +57,12 @@ export default function ModalCreateProduct({
             name: values.name,
             price: values.price,
             description: values.description,
-            sizeQuantity: sizeQuantity,
-            colorList: values.colorList.split(', '),
             productAvatar: productAvatarFile,
             productPictures: imageFiles,
             categoryId: values.categoryId,
-            productId: productEditing?.productID || null,
-            sizeProductWithID: productEditing?.sizeID || null,
+            productId: productEditing?.productID[0] || null,
             changeImageUpload: changeImageUpload,
+            quantity: values.quantity,
          };
 
          createUpdateProduct(product);
@@ -106,19 +100,6 @@ export default function ModalCreateProduct({
       setImagesURL([]);
       // -> change update img
       setChangeImageUpload(true);
-   }
-
-   const handleOnChange = (e, key) => {
-      const value = e.target.value;
-      onChangeSizeQuantity(key, value);
-   };
-
-   function onChangeSizeQuantity(key, value) {
-      console.log(key, value);
-      setSizeQuantity({
-         ...sizeQuantity,
-         [key]: Number(value),
-      });
    }
 
    useEffect(() => {
@@ -214,79 +195,33 @@ export default function ModalCreateProduct({
                         )}
                      </div>
 
-                     {/* size & quantity */}
-                     <div className=''>
-                        <div className='mb-2'>
-                           <p className='text-red-600 font-bold'>Số lượng từng size: </p>
-                           {productEditing && (
-                              <p>
-                                 (Nếu<span className='font-bold'>thêm</span> size mới =&gt; xóa sản
-                                 phẩm =&gt; tạo mới =&gt; tạo mới size)
-                              </p>
-                           )}
-                        </div>
-                        <div className='flex gap-5'>
-                           {Object.keys(sizeQuantity).map((sizeItem) => (
-                              <div className='flex gap-1 items-center' key={sizeItem}>
-                                 <label>{sizeItem}:</label>
-                                 <input
-                                    className='w-[60px] border-2 text-[0.8rem] px-1 py-1 rounded-md'
-                                    type='number'
-                                    value={sizeQuantity[sizeItem]}
-                                    onChange={(e) => handleOnChange(e, sizeItem)}
-                                 />
-                              </div>
-                           ))}
-                        </div>
-                     </div>
-
                      {/* price */}
                      <div>
-                        <label htmlFor=''>Giá sản phẩm</label>
-
-                        <input
+                        <label htmlFor=''>Giá sản phẩm - VNĐ</label>
+                        <InputPrice
                            name='price'
                            className='w-full border-2 px-2 py-1 rounded-md'
-                           type='number'
                            value={formik.values.price}
-                           onChange={formik.handleChange}
+                           formik={formik}
                         />
+
                         {formik.errors.price && formik.touched.price && (
                            <WarningText warningText={formik.errors.price} />
                         )}
                      </div>
 
-                     {/* color list */}
                      <div>
-                        <label htmlFor=''>
-                           Màu sản phẩm (mỗi mã màu cách nhau bằng dấu phẩy: , )
-                        </label>
+                        <label htmlFor=''>Số lượng</label>
+
                         <input
-                           name='colorList'
+                           name='quantity'
                            className='w-full border-2 px-2 py-1 rounded-md'
-                           placeholder='VD: #fff, #333, #333333'
-                           value={formik.values.colorList}
+                           type='number'
+                           value={formik.values.quantity}
                            onChange={formik.handleChange}
                         />
-
-                        <p>Màu sắc chính xác sẽ được hiển thị dưới đây: </p>
-                        {formik.values.colorList.split(',').length > 0 && (
-                           <div className='flex gap-2'>
-                              {formik.values.colorList
-                                 .split(',')
-                                 .filter((item) => item !== '')
-                                 .map((color, index) => {
-                                    return (
-                                       <div
-                                          key={`${color}-${index}`}
-                                          className={`w-[50px] h-[20px]`}
-                                          style={{backgroundColor: `${color}`}}></div>
-                                    );
-                                 })}
-                           </div>
-                        )}
-                        {formik.errors.colorList && formik.touched.colorList && (
-                           <WarningText warningText={formik.errors.colorList} />
+                        {formik.errors.quantity && formik.touched.quantity && (
+                           <WarningText warningText={formik.errors.quantity} />
                         )}
                      </div>
 

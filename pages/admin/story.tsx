@@ -19,6 +19,7 @@ import panelApi from '../../service/panelApi';
 import slicePanelLinkName from '../../components/Admin/Product/slicePanelLinkName';
 import StoryItem from '../../components/Admin/Product/StoryItem';
 import sortDataByUpdatedTime from '../../components/Admin/common/sortDataByUpdatedTime';
+import LoadingCocozzi from '../../components/common/LoadingCocozzi';
 const accessToken = Cookies.get('accessToken');
 
 export default function AdminStoryPage({storyList}) {
@@ -51,24 +52,27 @@ export default function AdminStoryPage({storyList}) {
             data.append('pictures', picture);
 
             dispatch(udpatePanelAsync({accessToken, panelId, data})).then((res) => {
-               setIsShowLoading(false);
                if (res.payload.ok) {
-                  dispatch(getAllPanelAsync());
+                  dispatch(getAllPanelAsync()).then((res) => {
+                     setIsShowLoading(false);
+                  });
                   setIsShowModalForStory(false);
                } else {
                   toast.error(res.payload.message);
                }
+               setIsShowLoading(false);
             });
          } else {
             const data = {description: `${PANEL_FOR_STORY}${description}`};
             dispatch(udpatePanelAsync({accessToken, panelId, data})).then((res) => {
-               setIsShowLoading(false);
                if (res.payload.ok) {
-                  dispatch(getAllPanelAsync());
-                  setIsShowModalForStory(false);
+                  dispatch(getAllPanelAsync()).then((res) => {
+                     setIsShowLoading(false);
+                  });
                } else {
                   toast.error(res.payload.messsage);
                }
+               setIsShowLoading(false);
             });
          }
       }
@@ -83,13 +87,16 @@ export default function AdminStoryPage({storyList}) {
          dispatch(createPanelAsyns({accessToken, formData})).then((res) => {
             if (res.payload.ok) {
                setIsShowModalForStory(false);
-               dispatch(getAllPanelAsync());
+               dispatch(getAllPanelAsync()).then((res) => {
+                  setIsShowLoading(false);
+               });
             } else {
                toast.error(res.payload.message);
+               setIsShowLoading(false);
             }
          });
 
-         setIsShowLoading(false);
+         // setIsShowLoading(false);
       }
    }
 
@@ -147,7 +154,7 @@ export default function AdminStoryPage({storyList}) {
                />
             </AdminModal>
          )}
-         {isShowLoading && <LoadingActionPage />}
+         {isShowLoading && <LoadingCocozzi color='black' />}
       </AdminLayout>
    );
 }

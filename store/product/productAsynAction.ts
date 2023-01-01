@@ -19,6 +19,50 @@ export const getProductByNameAsync: any = createAsyncThunk('prodcut/getProductBy
    }
 });
 
+// create new product
+
+export const createNewProduct: any = createAsyncThunk(
+   'prodcut/createNewProduct',
+   async ({accessToken, formData}: any) => {
+      try {
+         const res = await productApi.createNewProduct(accessToken, formData);
+         const data = res?.data?.data;
+
+         console.log('data trong tạo product moi la gi', data);
+
+         return {
+            ok: true,
+            data: data,
+         };
+      } catch (error) {
+         return {
+            ok: false,
+         };
+      }
+   }
+);
+
+export const updateProduct: any = createAsyncThunk(
+   'prodcut/updateProduct',
+   async ({accessToken, productId, formData}: any) => {
+      try {
+         const res = await productApi.updateProduct(accessToken, productId, formData);
+         const data = res?.data?.data;
+
+         console.log('data trong tạo product moi la gi', data);
+
+         return {
+            ok: true,
+            data: data,
+         };
+      } catch (error) {
+         return {
+            ok: false,
+         };
+      }
+   }
+);
+
 export const saerchProductByName: any = createAsyncThunk(
    'prodcut/searchProductByName',
    async () => {

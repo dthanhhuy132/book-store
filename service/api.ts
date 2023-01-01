@@ -1,8 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import {getTokenSSRAndCSS} from '../helper';
-// const baseURL = 'https://cocozzi-be-dth-production.up.railway.app/api';
-// const baseURL = 'https://cocozzi-be-final-production.up.railway.app/api';
 const baseURL = 'http://localhost:5000/api';
 
 const api = {

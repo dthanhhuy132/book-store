@@ -61,8 +61,7 @@ export default function ShopPage({productListByName, storyList, bannerList}) {
          </div>
 
          <LoadingPage>
-            <Logo />
-            <div>You are wellcome!!!</div>
+            <Logo width='180px' height='70px' />
          </LoadingPage>
       </div>
    );

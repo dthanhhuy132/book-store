@@ -21,9 +21,9 @@ export default function ShopSliderBanner({bannerList}) {
    }, [width]);
 
    const bannerForMobile =
-      renderBannerList?.pictures.slice(0, renderBannerList?.pictures.length / 2) || [];
+      renderBannerList?.pictures?.slice(0, renderBannerList?.pictures.length / 2) || [];
    const bannerForPC =
-      renderBannerList?.pictures.slice(
+      renderBannerList?.pictures?.slice(
          renderBannerList?.pictures.length / 2,
          renderBannerList?.pictures.length
       ) || [];
@@ -34,7 +34,7 @@ export default function ShopSliderBanner({bannerList}) {
    }));
 
    // conver description to link in banner
-   const bannerLinkArr = getLinkBannerPanel(renderBannerList?.description).map((item) => {
+   const bannerLinkArr = getLinkBannerPanel(renderBannerList?.description)?.map((item) => {
       const linkIndex = item.indexOf('.');
 
       if (linkIndex) {
@@ -52,7 +52,7 @@ export default function ShopSliderBanner({bannerList}) {
 
    return (
       <>
-         {renderBannerList.pictures.length > 0 && (
+         {renderBannerList.pictures?.length > 0 && (
             <ImageGallery
                ref={sliderRef}
                items={isMobileScreen ? imagesForMobile : imagesForPC}

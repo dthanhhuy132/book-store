@@ -23,10 +23,10 @@ import {updateEvent} from '../../store/event/eventSlice';
 import {parseJwt} from '../../helper';
 import {getCartByUserId} from '../../store/cart/cartAsynAction';
 
-const navbarHeader = ['shop', 'promo', 'event', 'info', 'membership'];
+const navbarHeader = ['shop', 'event', 'info', 'membership'];
 const submenuArr = ['shop', 'event'];
 
-export default function Header({categoryList, eventList, productGroupByNameList}) {
+export default function Header({categoryList, eventList}) {
    // /hook
    const router = useRouter();
    const dispatch = useAppDispatch();
@@ -110,13 +110,13 @@ export default function Header({categoryList, eventList, productGroupByNameList}
             className='sticky top-0 left-0 right-0 flex py-3 md:px-10 lg:flex justify-between lg:items-center bg-white border-b-[1px] z-50'
             ref={headerRef}>
             <div className='order-2 lg:order-[unset] flex absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] md:relative md:top-[unset] md:left-[unset] md:translate-x-0 md:translate-y-0 md:order-0 items-center justify-between lg:w-1/3 z-20'>
-               <div className='w-[120px] h-[30px] md:w-[130px] md:h-[25px]'>
+               <div className='w-[120px] h-[30px] md:w-[130px] md:h-[25px] flex items-center'>
                   <Logo />
                </div>
             </div>
             {/* menu bar */}
             <ul
-               className='order-1 relative hidden lg:flex justify-center gap-x-5 gap-y-3 uppercase lg:w-1/3 flex-wrap md:gap-5 mdlg:gap-[30px] lg:gap-[70px] md:flex-nowrap z-50 before:content-(" ") before:absolute before:bottom-[-100%] before:left-[-10%] before:w-[120%] before:h-[30px] before:z-[51]'
+               className='order-1 relative hidden lg:flex justify-center gap-x-5 gap-y-3 uppercase lg:w-1/3 flex-wrap md:gap-2 lg:gap-[40px] md:flex-nowrap z-50 before:content-(" ") before:absolute before:bottom-[-100%] before:left-[-10%] before:w-[120%] before:h-[30px] before:z-[51]'
                onMouseLeave={() => !isMobile && setIsShowSubMenu(false)}>
                {navbarHeader.map((item, index) => (
                   <div
@@ -136,7 +136,6 @@ export default function Header({categoryList, eventList, productGroupByNameList}
                      {/* sub menu for header (hover item for showing) */}
                      <SubMenu
                         // item here -> item name of header
-                        productGroupByNameList={productGroupByNameList}
                         isShowSubMenu={isShowSubMenu}
                         name={submenuName}
                         hoverItem={item}

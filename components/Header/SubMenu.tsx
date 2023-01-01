@@ -16,7 +16,7 @@ import {ProductItem} from '../ProductItem';
 import randomProductIndexForHeader from '../../helper/randomProductIndexForHeader';
 import stringToSlug from '../../helper/stringToSlug';
 
-export default function SubMenu({isShowSubMenu = false, name, hoverItem, productGroupByNameList}) {
+export default function SubMenu({isShowSubMenu = false, name, hoverItem}) {
    const [headerHeight] = useGlobalState('headerHeight');
    // get caategory, event in redux
    const {categoryProductState} = useAppSelector((state) => state.category);
@@ -85,79 +85,17 @@ export default function SubMenu({isShowSubMenu = false, name, hoverItem, product
 
    // useEffect random product
 
-   useEffect(() => {
-      if (productGroupByNameList) {
-         let randomProductForHeader;
-         if (productGroupByNameList.length < 8) {
-            randomProductForHeader = productGroupByNameList;
-         } else {
-            const randomIndexArr = randomProductIndexForHeader(productGroupByNameList?.length);
-            randomProductForHeader = randomIndexArr.map(
-               (randomIndex) =>
-                  productGroupByNameList.filter((item, index) => index === randomIndex)[0]
-            );
-         }
-
-         setRenderListProductForSubMenu(randomProductForHeader);
-      }
-   }, [productGroupByNameList]);
-
    return (
       <>
          <div
-            className={`fixed left-0 right-0 bg-white rounded-b-lg transition-all z-[19] overflow-hidden`}
+            className={`fixed left-0 right-0 bg-white rounded-b-lg transition-all z-[19] overflow-hidden drop-shadow-lg`}
             style={{
                height: isShowSubMenu && hoverItem === name ? `350px` : '0px',
                // borderBottom: isShowSubMenu && hoverItem === name ? '1px solid gray' : '',
                top: `${headerAppHeight}px`,
             }}>
             {/* category slider || event slider */}
-            <div className='absolute right-0 pr-[44px] w-[500px] top-[15px]'>
-               <p className='px-2 mb-3 text-[#891a1c]'>SẢN PHẨM NỔI BẬT</p>
-               {renderListProductForSubMenu?.length >= 2 ? (
-                  <SliderSlick
-                     arrows={false}
-                     {...settings}
-                     beforeChange={handleBeforeChange}
-                     afterChange={handleAfterChange}>
-                     {renderListProductForSubMenu.map((product, index) => {
-                        return (
-                           <div key={index} onClickCapture={handleOnItemClick}>
-                              <div
-                                 className='md:px-2 font-thin normal-case text-[0.8rem]'
-                                 style={{fontFamily: 'Gilroy'}}>
-                                 <ProductItem
-                                    product={product}
-                                    key={index}
-                                    showPrice={false}
-                                    smallName={true}
-                                 />
-                              </div>
-                           </div>
-                        );
-                     })}
-                  </SliderSlick>
-               ) : (
-                  <div className='w-[200px]'>
-                     {renderListProductForSubMenu.map((product, index) => {
-                        return (
-                           <div key={index} onClickCapture={handleOnItemClick}>
-                              <div
-                                 className='md:px-2 font-thin normal-case text-[0.8rem]'
-                                 style={{fontFamily: 'Gilroy'}}>
-                                 <ProductItem
-                                    product={product}
-                                    key={index}
-                                    showPrice={false}
-                                    smallName={true}
-                                 />
-                              </div>
-                           </div>
-                        );
-                     })}
-                  </div>
-               )}
-            </div>
+            <div className='absolute right-0 pr-[44px] w-[500px] top-[15px]'></div>
          </div>
 
          {/* --------------------------------------------> click on submenu link */}

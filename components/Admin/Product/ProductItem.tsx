@@ -59,38 +59,26 @@ export default function ProductItem({product, handleClickEditProduct, renderProd
       });
    }
 
+   console.log('product cho nay la gi', product);
+
    return (
       <>
          <div>
             {/* product info */}
             <div>
                <p className='font-bold'>{product.name}</p>
+
+               {/* Giá */}
                <p>
-                  <FormatPrice price={product.price} />
+                  <span>Giá: </span>
+                  <FormatPrice price={product.price} fontSize='1rem' />
                </p>
 
-               {/* size */}
-               <div className='flex gap-2'>
-                  {sizeAndQuantity.map((item, index) => (
-                     <div key={index}>
-                        <span className='font-bold'>{item.size}</span>
-                        <span>:</span>
-                        <span> {item.quantity}</span>
-                     </div>
-                  ))}
-               </div>
-
-               <div className='flex gap-2 mt-2'>
-                  {product.colorList
-                     .toString()
-                     .split(',')
-                     .map((color, index) => (
-                        <div
-                           key={index}
-                           className='w-[40px] h-[20px]'
-                           style={{backgroundColor: `${color}`}}></div>
-                     ))}
-               </div>
+               {/* quantity */}
+               <p>
+                  <span>Số lượng còn lại: </span>
+                  <span className='font-bold'>{product?.quantity}</span>
+               </p>
             </div>
 
             <div className='relative grid grid-row-2 mt-3'>

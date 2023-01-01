@@ -7,12 +7,10 @@ interface LogoSize {
    height?: string;
 }
 
-export default function Logo({width = '150', height = '30'}: LogoSize) {
+export default function Logo({width = '150', height = '45'}: LogoSize) {
    return (
       <Link href='/' className='block center'>
-         <a>
-            <Image src={logo} alt='Picture of the author' width={width} height={height} />
-         </a>
+         <img src='/images/Logo.png' alt='Picture of the author' width={width} height={height} />
       </Link>
    );
 }

@@ -89,7 +89,7 @@ export default function Category({categoryList}) {
          <div className='container w-[50%] px-8'>
             <div className=''>
                {/* title */}
-               <div className='flex gap-10 items-center'>
+               <div className='flex gap-10 items-center border-b-2 pb-2'>
                   <h2 className='text-2xl font-semibold'>Category list</h2>
                   <AdminButton click={clickCreateNewCategory}>
                      <AiOutlinePlusCircle /> Create new Category
@@ -97,22 +97,26 @@ export default function Category({categoryList}) {
                </div>
 
                {/* category table */}
-               <div className='-mx-4 sm:-mx-8 px-4 py-4 overflow-x-auto'>
-                  <div className='inline-block min-w-full shadow-md rounded-lg overflow-hidden'>
-                     <table className='min-w-full leading-normal'>
-                        <CategoryTableHeader />
-                        <tbody>
-                           {renderCategoryList.map((categoryItem, index) => (
-                              <CategoryAdminItem
-                                 key={index}
-                                 categoryItem={categoryItem}
-                                 handleClickEditCategory={handleClickEditCategory}
-                              />
-                           ))}
-                        </tbody>
-                     </table>
+               {renderCategoryList.length > 0 ? (
+                  <div className='-mx-4 sm:-mx-8 px-4 py-4 overflow-x-auto mt-5'>
+                     <div className='inline-block min-w-full shadow-md rounded-lg overflow-hidden'>
+                        <table className='min-w-full leading-normal'>
+                           <CategoryTableHeader />
+                           <tbody>
+                              {renderCategoryList.map((categoryItem, index) => (
+                                 <CategoryAdminItem
+                                    key={index}
+                                    categoryItem={categoryItem}
+                                    handleClickEditCategory={handleClickEditCategory}
+                                 />
+                              ))}
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
-               </div>
+               ) : (
+                  <div className='mt-5'>Chưa có category</div>
+               )}
             </div>
             {isShowModalCetegory && (
                <AdminModal

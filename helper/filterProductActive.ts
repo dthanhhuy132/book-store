@@ -20,6 +20,7 @@ export default function filterProductActive(productListByName: any) {
             name: product.name,
             size: sizeQuantity,
             sizeID: sizeID,
+            quantity: product.data[0].quantity,
             productID: product.data.map((item) => item._id),
             pictures: product.data[0].pictures,
             price: product.data[0].price,

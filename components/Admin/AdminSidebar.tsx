@@ -5,7 +5,7 @@ import Link from 'next/link';
 const adminRouter = [
    'order',
    'home',
-   'promo',
+   // 'promo',
    'category',
    'event',
    'product',
@@ -13,7 +13,6 @@ const adminRouter = [
    'banner',
    'voucher',
    'user',
-   'info',
 ];
 
 export default function AdminSideBar() {
@@ -38,6 +37,8 @@ export default function AdminSideBar() {
                            ? 'Shop Banner'
                            : adminRoute === 'story'
                            ? 'Shop Story'
+                           : adminRoute === 'product'
+                           ? 'Shop Product'
                            : adminRoute}
                      </span>
                   </li>

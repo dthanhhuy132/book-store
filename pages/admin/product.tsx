@@ -13,12 +13,14 @@ import Cookies from 'js-cookie';
 import filterProductActive from '../../helper/filterProductActive';
 import LoadingActionPage from '../../components/common/LoadingPage';
 import {useAppDispatch, useAppSelector} from '../../store';
-import {getProductByNameAsync} from '../../store/product/productAsynAction';
+import {
+   createNewProduct,
+   getProductByNameAsync,
+   updateProduct,
+} from '../../store/product/productAsynAction';
 import {toast} from 'react-toastify';
-import AdminProductStory from '../../components/Admin/Product/AdminProductStory';
-import panelApi from '../../service/panelApi';
-import {PANEL_FOR_STORY} from '../../store/panel/panelSlice';
 import sortDataByUpdatedTime from '../../components/Admin/common/sortDataByUpdatedTime';
+import useCheckDuplicateName from '../../components/Admin/Product/useCheckDuplicateName';
 
 export default function AdminProductPage({productList, categoryList, productOrigin}) {
    const accessToken = Cookies.get('accessToken');
@@ -42,184 +44,127 @@ export default function AdminProductPage({productList, categoryList, productOrig
          description,
          price,
          categoryId,
-         colorList,
          productAvatar,
          productPictures,
-         sizeQuantity,
          productId,
+         quantity,
          changeImageUpload,
-         sizeProductWithID,
       } = product;
 
-      const checkSize = Object.values(sizeQuantity).filter((item) => Number(item) >= 0);
-      if (
-         checkSize.some((item) => Number(item) < 0) ||
-         checkSize.length == 0 ||
-         checkSize.every((item) => Number(item) == 0)
-      ) {
-         toast.error('Số lượng từng size chưa hợp lệ! Phải có ít nhất size có số lượng > 0!');
-         return;
-      }
-
       // Chỉnh sửa sản phẩm đang được phát triển
+
+      // Chỉnh sửa lại: id sản phẩm, số lượng, size
+      // new khoong cos size -> tajo moiw sanr phama
+      // ---------------> Chỉnh sửa sản phẩm nè
+
+      // ---------------> Tên sản phẩm là độc nhât vô nhị
+
       if (productId) {
-         console.log('productId la gi', productId);
-         console.log('sizeProductWithID la gi', sizeProductWithID);
-         const sizeQuantityMap = Object.keys(sizeQuantity).map((item) => ({
-            size: item,
-            quantity: sizeQuantity[item],
-            productId: sizeProductWithID[item],
-         }));
+         setIsShowLoading(true);
+         //   thay đôi hình ảnh sản phẩm
+         if (changeImageUpload === true) {
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('idCategory', categoryId);
+            formData.append('description', description);
+            formData.append('price', price);
 
-         // console.log('sizeQuantity la gi', sizeQuantity);
-         // console.log('sizeQuantityMap la gi', sizeQuantityMap);
-         // Chỉnh sửa lại: id sản phẩm, số lượng, size
-         // new khoong cos size -> tajo moiw sanr phama
+            // Yêu cầu từ Api
+            formData.append('colorList[0]', '#fff');
+            formData.append('size', 'ML');
 
-         // chỉnh sửa sản phẩm
-         if (changeImageUpload == true) {
-            setIsShowLoading(true);
+            formData.append('pictures', productAvatar);
+            productPictures.forEach((pic) => formData.append('pictures', pic));
+            formData.append('quantity', quantity);
 
-            // thay đổi hình sảnh sản phẩm
-            Promise.all(
-               sizeQuantityMap.map((item) => {
-                  const formData = new FormData();
-                  formData.append('name', name);
-                  formData.append('idCategory', categoryId);
-                  formData.append('description', description);
-                  formData.append('pictures', productAvatar);
-                  formData.append('price', price);
-                  if (colorList.length == 1) {
-                     formData.append('colorList[0]', colorList[0]);
-                  }
-                  if (colorList.length > 1) {
-                     colorList.forEach((color) => formData.append('colorList', color));
-                  }
-                  productPictures.forEach((pic) => formData.append('pictures', pic));
-                  formData.append('size', item.size);
-                  formData.append('quantity', item.quantity);
-                  const id = item.productId;
-                  return productApi.updateProduct(accessToken, id, formData).then((res) => {
-                     return res.status;
-                  });
-               })
-            ).then((res) => {
-               if (res.some((item: any) => item >= 400)) {
-                  toast.error(
-                     'có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng'
-                  );
-                  setIsShowLoading(false);
-               } else {
+            dispatch(updateProduct({accessToken, productId, formData})).then((res) => {
+               if ((res) => res.payload.ok) {
                   dispatch(getProductByNameAsync()).then((res) => {
                      if (res.payload.ok) {
                         setIsShowModalCreateProduct(false);
                         setIsShowLoading(false);
-                        toast.success('Cập nhật sản phẩm thành công');
+                        toast.success('Cập nhật sản phẩm thành công!');
                      } else {
                         toast.warning('Vui lòng tải lại trang để cập nhật sản phẩm');
                         setIsShowLoading(false);
                      }
                   });
+               } else {
+                  toast.error(
+                     'có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng'
+                  );
                }
             });
          }
 
-         if (changeImageUpload == false) {
-            setIsShowLoading(true);
-            // không thay đổi hình ảnh sản phẩm
-            Promise.all(
-               sizeQuantityMap.map((item) => {
-                  const id = item.productId;
-                  const formData = {
-                     name,
-                     description,
-                     price,
-                     categoryId,
-                     colorList,
-                     size: item.size,
-                     quantity: item.quantity,
-                  };
-                  return productApi.updateProduct(accessToken, id, formData).then((res) => {
-                     return res.status;
-                  });
-               })
-            ).then((res) => {
-               if (res.some((item: any) => item >= 400)) {
-                  toast.error(
-                     'có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng'
-                  );
-                  setIsShowLoading(false);
-               } else {
+         if (changeImageUpload === false) {
+            const formData = {
+               name,
+               description,
+               price,
+               categoryId,
+               quantity: quantity,
+            };
+
+            dispatch(updateProduct({accessToken, productId, formData})).then((res) => {
+               if ((res) => res.payload.ok) {
                   dispatch(getProductByNameAsync()).then((res) => {
                      if (res.payload.ok) {
                         setIsShowModalCreateProduct(false);
                         setIsShowLoading(false);
-                        toast.success('Cập nhật sản phẩm thành công');
+                        toast.success('Cập nhật sản phẩm thành công!');
                      } else {
                         toast.warning('Vui lòng tải lại trang để cập nhật sản phẩm');
                         setIsShowLoading(false);
                      }
                   });
+               } else {
+                  toast.error(
+                     'có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng'
+                  );
                }
             });
          }
       }
+
       // ------------------------------------------------> TẠO MỚI SẢN PHẨM
       if (!productId) {
          setIsShowLoading(true);
-         console.log('tạo mới sản phẩm', productId);
-         // tạo sản phẩm mới
-         const sizeQuantityMap = Object.keys(sizeQuantity).map((item) => ({
-            size: item,
-            quantity: sizeQuantity[item],
-         }));
-         if (checkSize.length > 0 && checkSize.every((item) => Number(item) >= 0)) {
-            setIsShowLoading(true);
-            Promise.all(
-               sizeQuantityMap.map((item) => {
-                  const formData = new FormData();
-                  formData.append('name', name);
-                  formData.append('idCategory', categoryId);
-                  formData.append('description', description);
-                  formData.append('pictures', productAvatar);
-                  formData.append('price', price);
-                  if (colorList.length == 1) {
-                     formData.append('colorList[0]', colorList[0]);
+
+         const formData = new FormData();
+         formData.append('name', name);
+         formData.append('idCategory', categoryId);
+         formData.append('description', description);
+         formData.append('price', price);
+
+         // Yêu cầu từ Api
+         formData.append('colorList[0]', '#fff');
+         formData.append('size', 'ML');
+
+         formData.append('pictures', productAvatar);
+         productPictures.forEach((pic) => formData.append('pictures', pic));
+         formData.append('quantity', quantity);
+
+         dispatch(createNewProduct({accessToken, formData})).then((res) => {
+            if (res.some((item: any) => item >= 400)) {
+               toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng');
+            } else {
+               dispatch(getProductByNameAsync()).then((res) => {
+                  if (res.payload.ok) {
+                     setIsShowModalCreateProduct(false);
+                     setIsShowLoading(false);
+                     toast.success('Tạo sản phẩm thành công! Vui lòng chờ để sản phẩm hiển thị');
+                  } else {
+                     toast.warning('Vui lòng tải lại trang để cập nhật sản phẩm');
+                     setIsShowLoading(false);
                   }
-                  if (colorList.length > 1) {
-                     colorList.forEach((color) => formData.append('colorList', color));
-                  }
-                  productPictures.forEach((pic) => formData.append('pictures', pic));
-                  formData.append('size', item.size);
-                  formData.append('quantity', item.quantity);
-                  return productApi.createNewProduct(accessToken, formData).then((res) => {
-                     return res.status;
-                  });
-               })
-            ).then((res) => {
-               if (res.some((item: any) => item >= 400)) {
-                  toast.error(
-                     'có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng'
-                  );
-               } else {
-                  dispatch(getProductByNameAsync()).then((res) => {
-                     if (res.payload.ok) {
-                        setIsShowModalCreateProduct(false);
-                        setIsShowLoading(false);
-                        toast.success('Tạo sản phẩm thành công! Vui lòng chờ để sản phẩm hiển thị');
-                     } else {
-                        toast.warning('Vui lòng tải lại trang để cập nhật sản phẩm');
-                        setIsShowLoading(false);
-                     }
-                  });
-               }
-            });
-         }
+               });
+            }
+         });
       }
    }
 
    function handleClickEditProduct(editProduct) {
-      console.log('editProduct', editProduct);
       setIsShowModalCreateProduct(true);
       setProductEditing(editProduct);
    }

@@ -39,7 +39,7 @@ export default function CategoryAdminItem({categoryItem, handleClickEditCategory
    return (
       <>
          <tr key={categoryItem._id}>
-            <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+            <td className='px-5 py-5 border-b border-gray-200 bg-white'>
                <p className='text-gray-900 whitespace-no-wrap'>{categoryItem.name}</p>
             </td>
 

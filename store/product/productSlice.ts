@@ -27,7 +27,6 @@ const productSlice = createSlice({
    extraReducers: (builder) => {
       builder.addCase(getProductByNameAsync.fulfilled, (state, action) => {
          const data = action.payload;
-         console.log('data trong product slide', data);
          state.productListState = data.data;
       });
    },

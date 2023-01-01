@@ -7,7 +7,6 @@ import uppercaseFirstLetter from '../../helper/uppercaseFirstLetter';
 import useWindowDimensions from '../../hooks/UseWindowDimensions';
 import {ProductDetailColorSelect, ProductDetailSizeSelect} from '../ProductDetailItem';
 import {BsFillCartPlusFill, BsFillCartXFill} from 'react-icons/bs';
-import {useAuthen} from '../../helper/useAuthen';
 import Cookies from 'js-cookie';
 import {toast} from 'react-toastify';
 import {parseJwt} from '../../helper';
@@ -24,12 +23,7 @@ interface IProductItem {
    showPrice?: boolean;
 }
 
-export default function ProductItem({
-   product,
-   displayPrice = false,
-   smallName = false,
-   showPrice = true,
-}: IProductItem) {
+export default function ProductItem({product, smallName = false, showPrice = true}: IProductItem) {
    const router = useRouter();
    const dispatch = useAppDispatch();
    const {width} = useWindowDimensions();

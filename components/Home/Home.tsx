@@ -11,7 +11,7 @@ export default function Home({homeImage}) {
    // get home links
    const homeLinks = homeImage?.description && getLinkHomePanel(homeImage?.description);
    const changeImageActiveAnimate = () => {
-      if (isActiveAnimation < homeImage.length - 1) {
+      if (isActiveAnimation < homeImage?.length - 1) {
          setIsActiveAnimation((pre) => pre + 1);
       } else {
          setIsActiveAnimation(0);

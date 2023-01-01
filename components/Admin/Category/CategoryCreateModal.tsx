@@ -4,6 +4,7 @@ import {WarningText} from '../common';
 
 export const CategorySchema = {
    name: Yup.string().required('Vui lòng nhập name category!'),
+   image: Yup.mixed(),
 };
 
 export default function CategoryCreateModal({
@@ -45,6 +46,7 @@ export default function CategoryCreateModal({
                <WarningText warningText={formik.errors.name} />
             )}
          </div>
+
          <div className='flex gap-2 justify-center my-2 border-t-2 pt-2'>
             <button
                type='submit'

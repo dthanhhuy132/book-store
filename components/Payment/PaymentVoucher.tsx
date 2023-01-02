@@ -32,6 +32,8 @@ export default function PaymentVoucher({
 
                if (Number(voucherStartDate) > Number(dateNow)) {
                   toast.warning('Voucher chưa sẵn sàng');
+                  setIsShowLoading(false);
+
                   return;
                } else if (Number(voucherEndDate) < Number(dateNow)) {
                   toast.warning('Voucher đã hết hạn sử dụng');

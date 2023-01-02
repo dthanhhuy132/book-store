@@ -58,7 +58,7 @@ export default function BagItem({productCart}) {
    const userId = userInfo?._id;
 
    function deleteCartItem() {
-      if (!accessToken || userId) {
+      if (!accessToken || !userId) {
          router.push('/membership');
          return;
       }
@@ -82,7 +82,7 @@ export default function BagItem({productCart}) {
    }
 
    function updateCart() {
-      if (!accessToken || userId) {
+      if (!accessToken || !userId) {
          router.push('/membership');
          return;
       }

@@ -61,7 +61,7 @@ export default function Login({
                      type='search'
                      name='email'
                      autoComplete='new-password'
-                     placeholder='Email/Phone number'
+                     placeholder={isRegisterPage ? 'Email' : 'Email/Phone number'}
                      className='w-full text-white outline-none bg-transparent border-b-[1px] border-black pb-[4px] placeholder-gray-400'
                      value={formik.values.email}
                      onChange={formik.handleChange}

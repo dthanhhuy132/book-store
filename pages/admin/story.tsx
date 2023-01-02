@@ -66,6 +66,8 @@ export default function AdminStoryPage({storyList}) {
             const data = {description: `${PANEL_FOR_STORY}${description}`};
             dispatch(udpatePanelAsync({accessToken, panelId, data})).then((res) => {
                if (res.payload.ok) {
+                  setIsShowModalForStory(false);
+
                   dispatch(getAllPanelAsync()).then((res) => {
                      setIsShowLoading(false);
                   });

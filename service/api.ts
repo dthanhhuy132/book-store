@@ -8,9 +8,11 @@ const api = {
    call() {
       return axios.create({
          baseURL,
+         withCredentials: false,
          headers: {
             // 'Content-type': 'application/json',
-            // Authorization: "Bearer " + localStorage.getItem("spotifyAuthToken"),
+            'Access-Control-Allow-Origin': '*',
+            // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
          },
       });
    },
@@ -21,6 +23,8 @@ const api = {
          headers: {
             // 'Content-type': 'application/json',
             Authorization: 'Bearer ' + token,
+            'Access-Control-Allow-Origin': '*',
+            // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
          },
       });
    },

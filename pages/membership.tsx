@@ -16,6 +16,7 @@ import {PHONE_REGEX} from '../components/Login/validateSchema';
 import {getCartByUserId} from '../store/cart/cartAsynAction';
 import panelApi from '../service/panelApi';
 import {PANEL_FOR_HOME} from '../store/panel/panelSlice';
+import authApi from '../service/authApi';
 
 export default function MembershipPage({homePanelList}) {
    const loginData = {email: '', password: ''};
@@ -26,7 +27,7 @@ export default function MembershipPage({homePanelList}) {
    const [errorLogin, setErrorLogin] = useState<any>('');
    const [isShowLoading, setIsShowLoading] = useState<boolean>(false);
 
-   function handleLogin(data: any) {
+   async function handleLogin(data: any) {
       setIsShowLoading(true);
       let loginData;
       const {email, password} = data;
@@ -36,7 +37,11 @@ export default function MembershipPage({homePanelList}) {
          loginData = {email, password};
       }
 
-      dispatch(loginAsyncAction(loginData)).then((res) => {
+      // const res = await authApi.login(loginData).then((res) => console.log('res la gi', res));
+
+      dispatch(loginAsyncAction({loginData})).then((res) => {
+         console.log('res cho nay la gi', res);
+
          if (res.payload?.ok) {
             const userId = res.payload.user.user._id;
             const accessToken = res.payload.user.accessToken;
@@ -49,9 +54,9 @@ export default function MembershipPage({homePanelList}) {
 
             router.push('/shop');
          } else {
+            setIsShowLoading(false);
             toast.error(res.payload.message);
             // toast.error('Đăng nhập không thành công, kiểm tra lại tên đăng nhập và password');
-            setIsShowLoading(false);
          }
       });
    }
@@ -85,7 +90,7 @@ export const getServerSideProps = async () => {
 
    return {
       props: {
-         homePanelList: homeImageList[0] || [],
+         homePanelList: homeImageList ? homeImageList[0] : [],
       },
    };
 };

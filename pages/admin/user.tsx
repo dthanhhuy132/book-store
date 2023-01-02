@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import {AdminLayout} from '../../components/Admin';
 import {getTokenSSRAndCSS} from '../../helper';
-import authApi from '../../service/authApi';
 import {useAppDispatch} from '../../store';
 import Cookies from 'js-cookie';
 import {getAllUserAsync} from '../../store/auth/authAsyncAction';

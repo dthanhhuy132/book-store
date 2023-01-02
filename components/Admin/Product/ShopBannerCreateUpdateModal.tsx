@@ -253,7 +253,7 @@ export default function ShopBannerCreateUpdateModal({
                         <p>- Link liên kết theo số thứ tự hình</p>
                         <p>- Hình ảnh không có link liên kết Xuống dòng cho hình đó</p>
                         <p>- Số lượng link liên kết phải bằng số lượng hình ảnh</p>
-                        <p>- Link hình ảnh: 1. /product/quan-name...</p>
+                        <p>- Link hình ảnh: 1. /product/hat-giong-tam-hon...</p>
                      </div>
                      <label htmlFor=''>Nhập link liên kết</label>
                      <textarea

@@ -11,7 +11,7 @@ import FormatPrice from '../../helper/FormatPrice';
 export default function BagHover({cartUserState}) {
    const totalPrice = useMemo(
       () =>
-         cartUserState.reduce(
+         cartUserState?.reduce(
             (acc, cur) => (acc += cur?.product?.price * cur?.product?.quantity),
             0
          ),

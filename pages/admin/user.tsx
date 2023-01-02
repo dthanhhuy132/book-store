@@ -55,7 +55,7 @@ export default function AdminUserPage() {
                            <span
                               className={`${
                                  user?.role === 'admin'
-                                    ? 'bg-red-600 rounded-md px-2 py-1 text-white'
+                                    ? 'bg-red-600 rounded-md px-2 py-1 text-white   '
                                     : ''
                               }`}>
                               {user?.role}

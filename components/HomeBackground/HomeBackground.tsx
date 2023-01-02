@@ -36,7 +36,7 @@ export default function HomeBackground({ishomepage = true, homePanelImg}: IHomeB
    }, [isActiveAnimation]);
 
    return (
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-0'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0'>
          {homePanelImg?.pictures?.map((imageSrc, index) => (
             <a key={index} onClick={() => handleClickImage()}>
                <ImageSC

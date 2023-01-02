@@ -11,7 +11,7 @@ export default function Logo({width = '150', height = '45'}: LogoSize) {
    return (
       <Link href='/' className='block center'>
          <img
-            src='/images/Logo.png'
+            src='/images/logo.png'
             alt='Picture of the author'
             className='cursor-pointer'
             width={width}

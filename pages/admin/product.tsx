@@ -21,6 +21,7 @@ import {
 import {toast} from 'react-toastify';
 import sortDataByUpdatedTime from '../../components/Admin/common/sortDataByUpdatedTime';
 import useCheckDuplicateName from '../../components/Admin/Product/useCheckDuplicateName';
+import LoadingBook365 from '../../components/common/LoadingBook365';
 
 export default function AdminProductPage({productList, categoryList, productOrigin}) {
    const accessToken = Cookies.get('accessToken');
@@ -239,7 +240,7 @@ export default function AdminProductPage({productList, categoryList, productOrig
             </AdminModal>
          )}
 
-         {isShowLoading && <LoadingActionPage />}
+         {isShowLoading && <LoadingBook365 color='black' />}
       </AdminLayout>
    );
 }

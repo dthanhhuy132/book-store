@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import {getTokenSSRAndCSS} from '../helper';
-const baseURL = 'http://localhost:5000/api';
-// const baseURL = 'https://buk365-be-production.up.railway.app/api';
+// const baseURL = 'http://localhost:5000/api';
+const baseURL = 'https://buk365-be-production.up.railway.app/api';
 
 const api = {
    call() {

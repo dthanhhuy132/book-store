@@ -49,8 +49,8 @@ export default function MembershipPage({homePanelList}) {
 
             router.push('/shop');
          } else {
-            // toast.error(res.payload?.message);
-            toast.error('Đăng nhập không thành công, kiểm tra lại tên đăng nhập và password');
+            toast.error(res.payload.message);
+            // toast.error('Đăng nhập không thành công, kiểm tra lại tên đăng nhập và password');
             setIsShowLoading(false);
          }
       });

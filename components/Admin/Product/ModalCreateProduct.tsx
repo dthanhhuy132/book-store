@@ -198,11 +198,12 @@ export default function ModalCreateProduct({
                      {/* price */}
                      <div>
                         <label htmlFor=''>Giá sản phẩm - VNĐ</label>
-                        <InputPrice
+                        <input
                            name='price'
+                           type='number'
                            className='w-full border-2 px-2 py-1 rounded-md'
                            value={formik.values.price}
-                           formik={formik}
+                           onChange={formik.handleChange}
                         />
 
                         {formik.errors.price && formik.touched.price && (

@@ -95,7 +95,9 @@ export default function Header({categoryList, eventList}) {
 
    const userId = userInfo?._id;
    useEffect(() => {
-      dispatch(getCartByUserId({accessToken, userId}));
+      if (accessToken && userId) {
+         dispatch(getCartByUserId({accessToken, userId}));
+      }
    }, []);
 
    useEffect(() => {

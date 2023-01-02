@@ -11,7 +11,6 @@ import Cookies from 'js-cookie';
 import {getTokenExpireTime} from '../helper';
 import panelApi from '../service/panelApi';
 import {PANEL_FOR_HOME} from '../store/panel/panelSlice';
-import {getCartByUserId} from '../store/cart/cartAsynAction';
 export default function RegisterPage({homePanelList}) {
    const registerData = {
       email: '',

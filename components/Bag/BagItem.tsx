@@ -56,7 +56,13 @@ export default function BagItem({productCart}) {
    const accessToken = Cookies.get('accessToken');
    const userInfo = parseJwt(accessToken)?.data;
    const userId = userInfo?._id;
+
    function deleteCartItem() {
+      if (!accessToken || userId) {
+         router.push('/membership');
+         return;
+      }
+
       setModalIsShowConfirmDelete(false);
       setIsShowLoading(true);
       const cartRemoveData = {
@@ -76,6 +82,10 @@ export default function BagItem({productCart}) {
    }
 
    function updateCart() {
+      if (!accessToken || userId) {
+         router.push('/membership');
+         return;
+      }
       setIsShowLoading(true);
       // Nếu thay đổi size, màu sắc hoặc số lượng > 1 => xóa sản phẩm cũ => tạo thêm sản phẩm mới
 

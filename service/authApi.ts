@@ -13,7 +13,7 @@ const authApi = {
    },
 
    getAllUser: (token) => {
-      return api.callWithToken(token).get('user/admin/getAllUser');
+      return api.callWithToken(token).get('/user/admin/getAllUser');
    },
 };
 

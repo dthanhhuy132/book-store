@@ -15,7 +15,7 @@ interface IHeaderNavRps {
    isShowMenuRps: Boolean;
 }
 
-const navbarHeader = ['shop', 'promo', 'event', 'info', 'order'];
+const navbarHeader = ['shop', 'event', 'info', 'order'];
 const navbarHasToken = ['Thông tin', 'Admin page', 'Đăng xuất'];
 export default function HeaderNavResponsive({handleCloseMenu, isShowMenuRps}: IHeaderNavRps) {
    const token = Cookies.get('accessToken');

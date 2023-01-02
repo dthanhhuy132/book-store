@@ -52,14 +52,6 @@ export default function Bag({carts}) {
       [renderCartList]
    );
 
-   const amountOfRelativeProduct = Math.ceil(renderCartList.length / 4);
-   const differentProductFilter = productListState?.filter(
-      (productItem) =>
-         !renderCartList.includes((productCart) => productCart.product.name !== productItem.name)
-   );
-
-   // const randomProductRelative = getRandomValues()
-
    return (
       <div className='flex flex-col mx-[auto] lg:flex-row w-full px-2 md:px-0 md:w-5/6 lg:w-2/3 my-4 md:my-10 gap-5 '>
          {/* Cart */}

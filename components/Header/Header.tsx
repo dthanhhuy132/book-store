@@ -40,6 +40,9 @@ export default function Header({categoryList, eventList}) {
    // get category, get cart item in redux
    const {categoryProductState} = useAppSelector((state: any) => state.category);
    const {cartUserState} = useAppSelector((state) => state.cart);
+
+   console.log('cartUserState', cartUserState);
+
    const {eventState} = useAppSelector((state) => state.event);
    // get product list by group Name
 

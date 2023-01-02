@@ -24,7 +24,7 @@ export default function BagHover({cartUserState}) {
                <p className='border-b-2 mb-2 font-thin pb-2'>Shopping bag</p>
                {/* cart */}
                <div className='flex flex-col gap-4 my-2 h-[170px] overflow-auto'>
-                  {cartUserState.length > 0 ? (
+                  {cartUserState && cartUserState?.length > 0 ? (
                      cartUserState?.map((productCart, index) => (
                         // add img here
                         <BagItemHover key={index} productCart={productCart} />

@@ -19,7 +19,7 @@ import * as Yup from 'yup';
 import {useFormik} from 'formik';
 import PaymentVoucher from './PaymentVoucher';
 import {createPaymentAsyns} from '../../store/payment/paymentAsynAction';
-import LoadingCocozzi from '../common/LoadingCocozzi';
+import LoadingBook365 from '../common/LoadingBook365';
 
 const validatePaymentSchema = {
    name: Yup.string().required('Vui lòng nhập tên'),
@@ -89,7 +89,7 @@ export default function Payment() {
             listProduct: paymentProduct.map((product) => ({
                productId: product.prodcutId,
                quantity: product.quantity,
-               productSelectColor: product.colorSelect,
+               productSelectColor: '#ff',
             })),
             note: `${values.name} - ${values.phone}`,
             address: `${values.address3} ${values.address2} ${values.address1}`,
@@ -107,28 +107,33 @@ export default function Payment() {
    function createPayment(paymentData) {
       setIsShowLoading(true);
       // console.log('paymentData', paymentData);
-      dispatch(createPaymentAsyns({accessToken, paymentData})).then((res) => {
+      dispatch(createPaymentAsyns({accessToken, paymentData})).then(async (res) => {
          // console.log('res cho nayl gi', res);
          if (res.payload.ok) {
             toast.success('Tạo đơn hàng thành công!!!');
 
             // remove cart item after checkout success if is not prodcut buy now
             if (isNotProductBuyNow) {
-               cartUserState.forEach((cart) => {
-                  const cartRemoveData = {
-                     userId: userInfo._id,
-                     productId: cart.product._id,
-                  };
+               await Promise.all([
+                  cartUserState.map((cart) => {
+                     const cartRemoveData = {
+                        userId: userInfo._id,
+                        productId: cart.product._id,
+                     };
 
-                  dispatch(removeCartItemAsync({accessToken, cartRemoveData})).then((res) => {
+                     return dispatch(removeCartItemAsync({accessToken, cartRemoveData}));
+                  }),
+               ]).then((res) => {
+                  dispatch(getCartByUserId({accessToken, userId: userInfo._id})).then((res) => {
                      if (res.payload.ok) {
-                        dispatch(getCartByUserId({accessToken, userId: userInfo._id}));
-                        setTimeout(() => {
-                           router.push('/order');
-                        }, 1000);
+                        setIsShowLoading(false);
+
+                        router.push('/order');
+                     } else {
+                        toast.info('Vui lòng tải lại trang để cập nhật giỏ hàng!');
+                        setIsShowLoading(false);
                      }
                   });
-                  setIsShowLoading(false);
                });
             } else {
                router.push('/order');
@@ -208,27 +213,13 @@ export default function Payment() {
                                           <img
                                              src={product?.pictures[0]}
                                              alt='proImg'
-                                             className='h-[70px] object-contain rounded-md'></img>
+                                             className='h-full w-[60px] object-cover rounded-md'></img>
 
                                           {/* product info */}
                                           <div>
                                              <span className='font-bold'>
                                                 {uppercaseFirstLetter(product?.name)}
                                              </span>
-                                             <div className='flex gap-5'>
-                                                <span className='min-w-[50px]'>
-                                                   <span className='font-bold'>Size:</span>{' '}
-                                                   {product?.size}
-                                                </span>
-                                                <div className='flex gap-2'>
-                                                   <span className='font-bold'>Color:</span>
-                                                   <div
-                                                      className='w-[40px] h-[20px]'
-                                                      style={{
-                                                         backgroundColor: `${product?.colorSelect}`,
-                                                      }}></div>
-                                                </div>
-                                             </div>
                                           </div>
                                        </div>
                                     </td>
@@ -236,7 +227,10 @@ export default function Payment() {
                                     <td className='text-right flex items-end justify-end mt-[4px]'>
                                        <div className='flex flex-col'>
                                           <div>
-                                             <FormatPrice price={Number(product.price)} />
+                                             <FormatPrice
+                                                price={Number(product.price)}
+                                                fontSize='1rem'
+                                             />
                                           </div>
                                           <span className='font-bold'> x{product.quantity}</span>
                                        </div>
@@ -272,7 +266,7 @@ export default function Payment() {
                   <div className='flex justify-between border-b-2 border-slate-400 font-bold text-[1.3rem] mt-5'>
                      <p>Tổng</p>
                      <p>
-                        <FormatPrice price={toTalPrice} />
+                        <FormatPrice price={toTalPrice} fontSize='1.2rem' />
                      </p>
                   </div>
                   <div className='mt-3 text-white text-center '>
@@ -291,7 +285,7 @@ export default function Payment() {
             {/* payment */}
          </div>
 
-         {isShowLoading && <LoadingCocozzi color='black' />}
+         {isShowLoading && <LoadingBook365 color='black' />}
       </form>
    );
 }

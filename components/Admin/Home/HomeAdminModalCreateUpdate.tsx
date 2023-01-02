@@ -13,8 +13,10 @@ export const EventSchema = {
    link2: Yup.string(),
    link3: Yup.string(),
    link4: Yup.string(),
+   link5: Yup.string(),
+   link6: Yup.string(),
 
-   pictures: Yup.mixed().required('Upload 4 pictures'),
+   pictures: Yup.mixed().required('Upload 6 pictures'),
 };
 
 export default function HomeAdminModalCreateUpdate({
@@ -39,6 +41,8 @@ export default function HomeAdminModalCreateUpdate({
       link2: homePanelLink[1] !== '' ? homePanelLink[1] : '',
       link3: homePanelLink[2] !== '' ? homePanelLink[2] : '',
       link4: homePanelLink[3] !== '' ? homePanelLink[3] : '',
+      link5: homePanelLink[5] !== '' ? homePanelLink[4] : '',
+      link6: homePanelLink[5] !== '' ? homePanelLink[5] : '',
       pictures: editingHome?.pictures || '',
    };
 
@@ -46,10 +50,10 @@ export default function HomeAdminModalCreateUpdate({
       initialValues: initHomePanelValue,
       validationSchema: Yup.object(EventSchema),
       onSubmit: (values) => {
-         if (isChangeImage && imageFiles.length !== 4) {
-            toast.error('Upload 4 pictures!!!');
+         if (isChangeImage && imageFiles.length !== 6) {
+            toast.error('Upload 6 pictures!!!');
          } else {
-            const description = `${PANEL_FOR_HOME}[${values.link1},${values.link2},${values.link3},${values.link4}]`;
+            const description = `${PANEL_FOR_HOME}[${values.link1},${values.link2},${values.link3},${values.link4},${values.link5},${values.link6}]`;
 
             let homePanel = {
                description: description,
@@ -96,8 +100,9 @@ export default function HomeAdminModalCreateUpdate({
       <div>
          <form autoComplete='off' onSubmit={formik.handleSubmit}>
             <div className='text-[blue] italic text-[0.9rem] mb-2'>
-               <p>*Chọn 4 hình</p>
+               <p>*Chọn 6 hình</p>
                <p>*Các hình nên có cùng độ phân giải</p>
+               <p>*Chỉ nhập 1 link liên kết theo hướng dẫn</p>
             </div>
 
             <div className='flex flex-col gap-3'>
@@ -166,7 +171,7 @@ export default function HomeAdminModalCreateUpdate({
                      <label htmlFor=''>Nhập link liên kết 1</label>
                      <textarea
                         name='link1'
-                        placeholder='/product/ao-quan-136817498849 &#10;'
+                        placeholder={`/product/cuon-theo-chieu-gio-136817498849 \n/category/noi-bat-136817316324 \n/event/su-kien-thang-1...`}
                         className='w-full border-2 px-2 py-1 rounded-md placeholder:text-[0.9rem]'
                         value={formik.values.link1}
                         onChange={formik.handleChange}
@@ -177,7 +182,7 @@ export default function HomeAdminModalCreateUpdate({
                      <label htmlFor=''>Nhập link liên kết 2</label>
                      <textarea
                         name='link2'
-                        placeholder='/product/ao-quan-1368174988493 '
+                        placeholder={`/product/cuon-theo-chieu-gio-136817498849 \n/category/noi-bat-136817316324 \n/event/su-kien-thang-1...`}
                         className='w-full border-2 px-2 py-1 rounded-md placeholder:text-[0.9rem]'
                         value={formik.values.link2}
                         onChange={formik.handleChange}
@@ -188,20 +193,43 @@ export default function HomeAdminModalCreateUpdate({
                      <label htmlFor=''>Nhập link liên kết 3</label>
                      <textarea
                         name='link3'
-                        placeholder='/product/ao-quan-1368174988493'
+                        placeholder={`/product/cuon-theo-chieu-gio-136817498849 \n/category/noi-bat-136817316324 \n/event/su-kien-thang-1...`}
                         className='w-full border-2 px-2 py-1 rounded-md placeholder:text-[0.9rem]'
                         value={formik.values.link3}
                         onChange={formik.handleChange}
                         rows={3}
                      />
                   </div>
+
                   <div>
                      <label htmlFor=''>Nhập link liên kết 4</label>
                      <textarea
                         name='link4'
-                        placeholder='/product/ao-quan-1368174988493'
+                        placeholder={`/product/cuon-theo-chieu-gio-136817498849 \n/category/noi-bat-136817316324 \n/event/su-kien-thang-1...`}
                         className='w-full border-2 px-2 py-1 rounded-md placeholder:text-[0.9rem]'
                         value={formik.values.link4}
+                        onChange={formik.handleChange}
+                        rows={3}
+                     />
+                  </div>
+                  <div>
+                     <label htmlFor=''>Nhập link liên kết 5</label>
+                     <textarea
+                        name='link5'
+                        placeholder={`/product/cuon-theo-chieu-gio-136817498849 \n/category/noi-bat-136817316324 \n/event/su-kien-thang-1...`}
+                        className='w-full border-2 px-2 py-1 rounded-md placeholder:text-[0.9rem]'
+                        value={formik.values.link5}
+                        onChange={formik.handleChange}
+                        rows={3}
+                     />
+                  </div>
+                  <div>
+                     <label htmlFor=''>Nhập link liên kết 6</label>
+                     <textarea
+                        name='link6'
+                        placeholder={`/product/cuon-theo-chieu-gio-136817498849 \n/category/noi-bat-136817316324 \n/event/su-kien-thang-1...`}
+                        className='w-full border-2 px-2 py-1 rounded-md placeholder:text-[0.9rem]'
+                        value={formik.values.link6}
                         onChange={formik.handleChange}
                         rows={3}
                      />

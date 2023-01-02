@@ -113,7 +113,10 @@ export default function ModalCreateVoucher({
                   </div>
                   {/*4. percent */}
                   <div className='w-[50%]'>
-                     <label htmlFor=''>Phần trăm giả giá (%)</label>
+                     <label htmlFor=''>
+                        {' '}
+                        Input &#62; 100 =&#62; số tiền; Input &#60; 100 =&#62; %
+                     </label>
                      <input
                         name='percent'
                         className='w-full border-2 px-2 py-1 rounded-md'

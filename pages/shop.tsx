@@ -17,7 +17,7 @@ import {PANEL_FOR_BANNER} from '../store/panel/panelSlice';
 import {useRouter} from 'next/router';
 import stringToSlug from '../helper/stringToSlug';
 
-export default function ShopPage({productListByName, storyList, bannerList}) {
+export default function ShopPage({productList, storyList, bannerList}) {
    const router = useRouter();
    const {width} = useWindowDimensions();
    const {categoryProductState} = useAppSelector((state) => state.category);
@@ -52,7 +52,7 @@ export default function ShopPage({productListByName, storyList, bannerList}) {
                </div>
             </div>
             <div className='mt-[40px] md:mt-[70px] min-h-[100vh] shop-item mb-[50px]'>
-               <ShopProduct productListByName={productListByName} />
+               <ShopProduct productList={productList} />
             </div>
          </div>
 
@@ -72,7 +72,8 @@ export const getServerSideProps = async () => {
    let storyList;
    // let activeCategory;
    try {
-      const productRes = await productApi.getAllProductByName();
+      const productRes = await productApi.getProduct();
+
       const panelRes = await panelApi.getAllPanel();
       storyList = panelRes?.data?.data;
 
@@ -84,14 +85,12 @@ export const getServerSideProps = async () => {
 
       // const categoryRes = await categoryApi.getAllCategory();
 
-      const productListByName = productRes?.data?.data;
-
-      activeProduct = filterProductActive(productListByName);
+      activeProduct = productRes?.data?.data;
    } catch (error) {}
 
    return {
       props: {
-         productListByName: activeProduct || [],
+         productList: activeProduct || [],
          storyList: storyList || [],
          bannerList: bannerList || [],
       },

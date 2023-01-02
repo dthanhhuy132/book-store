@@ -18,6 +18,7 @@ export const registerAsyncAction: any = createAsyncThunk(
    async (regiterData: any) => {
       try {
          const response = await authApi.register(regiterData);
+
          return {
             ok: true,
             data: response.data.data,
@@ -38,3 +39,18 @@ export const logOutAsyncAction: any = createAsyncThunk('auth/regiter', async (re
       return {ok: false, message: error.response.data.message};
    }
 });
+
+export const getAllUserAsync: any = createAsyncThunk(
+   'auth/getAllUserAsync',
+   async ({accessToken}: any) => {
+      try {
+         const response = await authApi.getAllUser(accessToken);
+         return {
+            ok: true,
+            data: response.data.data,
+         };
+      } catch (error) {
+         return {ok: false, message: error.response.data.message};
+      }
+   }
+);

@@ -5,7 +5,7 @@ import categoryApi from '../../service/categoryApi';
 import {useAppDispatch, useAppSelector} from '../../store';
 import {getProductByNameAsync} from '../../store/product/productAsynAction';
 import {ShopProduct} from '../../components/Shop';
-import LoadingCocozzi from '../../components/common/LoadingCocozzi';
+import LoadingBook365 from '../../components/common/LoadingBook365';
 
 export default function CategoryProductPage({categoryList}) {
    // flow:
@@ -48,20 +48,25 @@ export default function CategoryProductPage({categoryList}) {
          setRenderProductByCategory(productByCategory);
       }
    }, [productListState]);
+
+   console.log('productListByName', renderProductByCategory);
    return (
       <div className='w-full px-2 md:w-3/4 md:mx-auto my-10'>
-         <div className='sticky top-[40px] md:top-[50px] mt-5 font-bold border-b-2 z-[9] bg-white py-3'>
-            Phân loại: {categoryName} ({renderProductByCategory.length})
+         <div className='sticky top-[40px] text-[1.1rem] md:top-[50px] mt-5 font-bold border-b-2 z-[9] bg-white py-3'>
+            Phân loại:
+            <span>
+               {categoryName} ({renderProductByCategory.length})
+            </span>
          </div>
          {renderProductByCategory.length > 0 ? (
             <div className='mt-[40px] md:mt-[30px] min-h-[100vh] shop-item mb-[50px]'>
-               <ShopProduct productListByName={renderProductByCategory} />
+               <ShopProduct productList={renderProductByCategory} />
             </div>
          ) : (
             <>Không có sản phẩm liên quan</>
          )}
 
-         {isShowLoading && <LoadingCocozzi color='black' />}
+         {isShowLoading && <LoadingBook365 color='black' />}
       </div>
    );
 }

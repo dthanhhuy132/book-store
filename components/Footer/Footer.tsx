@@ -31,39 +31,44 @@ export default function Footer() {
       <>
          {hiddenFooter && (
             <div
-               className={`py-3 px-2 mb-10 md:mb-0 md:px-10 border-t-[1px] pt-5 ${
+               className={`flex flex-col py-3 px-2 mb-10 md:mb-0 md:px-10 border-t-[1px] pt-5 ${
                   adjustFooter ? 'mt-10' : ''
                }`}>
-               <div className='flex items-center gap-3 md:gap-5'>
-                  <Logo width='120px' height='24px'></Logo>
-                  <FiInstagram />
-                  <ImFacebook />
-                  <IoLogoYoutube />
-                  <SiTiktok />
+               <div className='mb-5 mx-auto md:mx-[unset]'>
+                  <Logo width='150px' height='40px'></Logo>
                </div>
 
-               <div className='flex flex-col md:flex-row gap-5 md:gap-20 mt-4 uppercase font-semibold text-[0.8rem]'>
-                  <div>
-                     <p>business registration number. 0314200458</p>
-                     <p>Address:</p>
-                     <p>327/6A Nguyen dinh chieu, ward 5, district 3, ho chi minh city</p>
-                     <p>122 phan thanh, ward thac gian, thanh khe district, da nang city</p>
-                     <p>hot line: (+84) 933 322 199</p>
-                     <p>email: info@cocozzi.vn</p>
-                  </div>
+               <div className='flex flex-col md:flex-row gap-10 items-start'>
+                  <img
+                     src='/images/footer.JPG'
+                     alt='hình ảnh footer'
+                     className='w-full md:w-[500px]'
+                  />
 
-                  <div>
-                     <p>the all company limited</p>
-                     <p>business registration no. 0317155482</p>
-                     <p>address: 116 nguyen van thu, da kao ward, district 1, HCMC.</p>
-                     <p>hot line: (+84) 822 322 199</p>
-                     <p>email: info@theall.vn</p>
+                  {/* social */}
+                  <div className='flex w-full items-center md:items-start gap-5 flex-col'>
+                     <div className='flex items-center gap-3 text-[1.2rem] md:gap-5'>
+                        <FiInstagram className='hover:text-[#891a1c] cursor-pointer' />
+                        <ImFacebook className='hover:text-[#891a1c] cursor-pointer' />
+                        <IoLogoYoutube className='hover:text-[#891a1c] cursor-pointer' />
+                        <SiTiktok className='hover:text-[#891a1c] cursor-pointer' />
+                     </div>
+                     <div>
+                        <p>
+                           <span className='w-[100px] inline-block'> Created by </span>
+                           <span className='font-bold'>: Lê Công Đoan</span>
+                        </p>
+                        <p>
+                           <span className='w-[100px] inline-block'>Email </span>
+                           <span className='font-bold'>: Book365@gmail.com</span>
+                        </p>
+                     </div>
                   </div>
                </div>
 
                <div
                   className='zalo-chat-widget'
-                  data-oaid='665948928452952699'
+                  data-oaid='198857796279680334'
                   data-welcome-message='Rất vui khi được hỗ trợ bạn!'
                   data-autopopup='0'
                   data-width='300'

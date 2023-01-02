@@ -23,8 +23,12 @@ import converFirstLetterToUpperCase from '../../helper/converFirstLetterToUpperC
 import {toast} from 'react-toastify';
 import {parseJwt} from '../../helper';
 import {addCartItem, getCartByUserId} from '../../store/cart/cartAsynAction';
-import LoadingCocozzi from '../../components/common/LoadingCocozzi';
+import LoadingBook365 from '../../components/common/LoadingBook365';
 import NotFound from '../../components/NotFound';
+import {InputQuantity} from '../../components/Bag';
+import categoryApi from '../../service/categoryApi';
+import {getCategoryById} from '../../store/categoryPromo/categoryAsynAcion';
+import RenderCategoryItem from '../../components/ProductDetailItem/RenderCategoryItem';
 
 export default function ProductDetailPage({productListByName}: any) {
    const accessToken = Cookies.get('accessToken');
@@ -36,6 +40,9 @@ export default function ProductDetailPage({productListByName}: any) {
    const productName = router.query.productId as string;
    const productSlug = productName.split('-').slice(0, -1).join('-');
 
+   // render to UI prop
+
+   const [categoryName, setCategoryName] = useState('');
    const [productDetail, setProductDetail] = useState(
       productListByName?.filter(
          (product) => stringToSlug(product.name).split('-').slice(0, -1).join('-') == productSlug
@@ -46,20 +53,15 @@ export default function ProductDetailPage({productListByName}: any) {
    const [isMobileScreen, setIsMobileScreen] = useState(false);
 
    // size and color selection
-   const [sizeSelect, setSizeSelect] = useState(null);
-   const [colorSelect, setColorSelect] = useState(null);
-
+   const [chooseQuantity, setChooseQuantity] = useState(1);
    const [isShowLoading, setIsShowLoading] = useState(false);
 
    const [isShowSizeAndColor, setIsShowSizeAndColor] = useState(false);
-   const [isShowProductSelect, setIsShowProductSelect] = useState(false);
    // -------------------------------------------> BUY NOW
    function clickBuyNow() {
       if (!accessToken) {
          toast.warning('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
          router.push('/membership');
-      } else if (!colorSelect || !sizeSelect) {
-         toast.warning('Vui lòng chọn "MÀU SẮC" và "SIZE" sản phẩm');
       } else {
          // name, picture, productId,
          // const {name, pictures, price, productId} = product;
@@ -67,14 +69,15 @@ export default function ProductDetailPage({productListByName}: any) {
             name: productDetail.name,
             pictures: productDetail.pictures,
             price: productDetail.price,
-            colorSelect: colorSelect,
-            size: sizeSelect.size,
-            prodcutId: sizeSelect.sizeProductID,
-            quantity: 1,
+            colorSelect: 'ML',
+            size: '#fff',
+            prodcutId: productDetail?.productID[0],
+            quantity: chooseQuantity,
          };
 
+         console.log('cartData cho nay la gi', productPayment);
+
          router.push({pathname: '/payment', query: productPayment});
-         setIsShowProductSelect(false);
       }
    }
    // -------------------------------------------> ADD TO CART
@@ -83,31 +86,32 @@ export default function ProductDetailPage({productListByName}: any) {
       if (!accessToken) {
          toast.warning('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
          router.push('/membership');
-      } else if (!colorSelect || !sizeSelect) {
-         toast.warning('Vui lòng chọn "MÀU SẮC" và "SIZE" sản phẩm');
       } else {
          setIsShowLoading(true);
 
          const userId = userInfo._id;
          const cartItems = {
-            productId: sizeSelect?.sizeProductID,
-            quantity: 1,
-            productSelectColor: colorSelect,
+            productId: productDetail.productID[0],
+            quantity: chooseQuantity,
+            productSelectColor: '#fff',
          };
          const cartData = {userId, cartItems};
          dispatch(addCartItem({accessToken, cartData})).then((res) => {
             if (res.payload.ok) {
-               dispatch(getCartByUserId({accessToken, userId}));
-               setIsShowProductSelect(false);
-               toast.success('Đã thêm sản phẩm vào giỏ hàng');
+               dispatch(getCartByUserId({accessToken, userId})).then((res) => {
+                  if (res.payload.ok) {
+                     toast.success('Đã thêm sản phẩm vào giỏ hàng');
+                     setIsShowLoading(false);
+                  }
+               });
             } else {
                const message = res.payload.message;
                if (message == 'amount < quantity') {
                   toast.error('Sản phẩm đã hết hàng');
                }
+               setIsShowLoading(false);
                toast.error('Thêm sản phẩm thât bại, vui lòng thử lại sau!!!');
             }
-            setIsShowLoading(false);
          });
       }
    }
@@ -140,8 +144,19 @@ export default function ProductDetailPage({productListByName}: any) {
       }
    }, [isMobile]);
 
-   // product Information
-   const imagesArr = productDetail?.pictures.slice(1, productDetail?.pictures.length);
+   // get categoryName
+   useEffect(() => {
+      if (productDetail) {
+         const categoryId = productDetail?.categoryId;
+
+         dispatch(getCategoryById({categoryId})).then((res) => {
+            if (res.payload.ok) {
+               const category = res.payload.data;
+               setCategoryName(category.name);
+            }
+         });
+      }
+   }, [productDetail]);
 
    return (
       <>
@@ -149,22 +164,27 @@ export default function ProductDetailPage({productListByName}: any) {
             <div className='md:px-20 md:w-[780px] lg:w-[1200px] mx-[auto]'>
                {/* product image */}
                <div className='flex flex-col-reverse mt-2 md:flex-row md:mt-5 '>
-                  <div className='hidden md:grid grid-cols-2 gap-1 md:w-2/3 '>
-                     {/* video clip */}
-                     {/* <video autoPlay muted loop className='w-full'>
-               <source src='/videos/product.mp4' type='video/mp4' />
-            </video> */}
+                  <div className='md:w-2/3 '>
+                     <div className='hidden md:grid grid-cols-2 gap-1'>
+                        {productDetail?.pictures?.map((img, index) => (
+                           <div className='relative' key={index}>
+                              <img src={img} className='w-full h-auto' alt={img} />
+                           </div>
+                        ))}
+                     </div>
 
-                     {imagesArr?.map((img, index) => (
-                        <div className='relative' key={index}>
-                           <img src={img} className='w-full h-auto' alt={img} />
-                        </div>
-                     ))}
+                     <div>
+                        {!isMobileScreen && (
+                           <ProductDescription
+                              description={productDetail.description}></ProductDescription>
+                        )}
+                     </div>
                   </div>
 
+                  {/* slider for mobild */}
                   <div className='md:hidden'>
                      <SliderSlick {...settings}>
-                        {imagesArr?.map((img, index) => (
+                        {productDetail?.pictures?.map((img, index) => (
                            <div className='relative' key={index}>
                               <img src={img} className='w-full h-auto' alt={img} />
                            </div>
@@ -173,7 +193,6 @@ export default function ProductDetailPage({productListByName}: any) {
                      <ProductDescription
                         description={productDetail?.description}></ProductDescription>
                   </div>
-
                   {/* product info */}
                   <div className='w-full md:pl-5 md:top-2 md:w-[350px]'>
                      {/* product name */}
@@ -185,8 +204,8 @@ export default function ProductDetailPage({productListByName}: any) {
                         {/* price */}
                         <div className='mt-2 pb-2 md:pb-5 flex justify-between items-center border-b-[1px]'>
                            <div className='flex items-end'>
-                              <span className='font-semibold text-[1.2rem] mr-2'>
-                                 <FormatPrice price={productDetail.price} />
+                              <span className='font-semibold mr-2'>
+                                 <FormatPrice price={productDetail.price} fontSize='1.2rem' />
                               </span>
                               <span className='line-through text-gray-500 text-[0.9rem] mb-[2px]'>
                                  {(
@@ -207,59 +226,79 @@ export default function ProductDetailPage({productListByName}: any) {
                            />
                         </div>
 
+                        {/* category Name */}
+                        <div className='block md:hidden mb-5'>
+                           <p className='mb-2 mt-5'>Phân loại:</p>
+                           <RenderCategoryItem categoryName={categoryName} small />
+                        </div>
+
                         <div className='fixed bottom-0 right-0 left-0 md:relative md:mx-0 md:bg-transparent text-black md:text-black z-[101] '>
                            <div
-                              className={`absolute bg-white md:bg-transparent w-full md:relative md:bottom-[unset] md:opacity-100 transition-all ${
+                              className={`absolute border-t-[1px] md:border-unset py-3 px-2 md:p-0 bg-white md:bg-transparent w-full md:relative md:bottom-[unset] md:opacity-100 transition-all ${
                                  isShowSizeAndColor ? 'bottom-[100%]' : 'bottom-[-500%] '
                               }`}>
-                              {/* size select */}
-                              <ProductDetailSizeSelect
-                                 sizeID={productDetail.sizeID}
-                                 sizeList={productDetail.size}
-                                 sizeSelect={sizeSelect}
-                                 setSizeSelect={setSizeSelect}
-                              />
-                              {/* color select */}
-                              <ProductDetailColorSelect
-                                 colorList={productDetail.colorList}
-                                 setColorSelect={setColorSelect}
-                                 colorSelect={colorSelect}
-                              />
+                              <div className='mt-2 flex gap-3 items-center'>
+                                 <p className='w-[100px]'>Số lượng:</p>
+                                 <div className='flex-1'>
+                                    <InputQuantity
+                                       min={1}
+                                       max={10}
+                                       value={1}
+                                       setProductCartQuantity={setChooseQuantity}
+                                    />
+                                 </div>
+                              </div>
                            </div>
 
                            {/* buy button */}
                            <div className='flex md:mt-3 md:gap-1 relative z-[120] font-[900] text-white md:text-black'>
                               <button
-                                 className='w-[50%] py-2 uppercase bg-black md:bg-[transparent] md:border-[1px] hover:text-white md:hover:bg-black border-r-[1px] border-[#fff] md:border-black'
+                                 className='w-[50%] py-3 uppercase bg-black md:bg-[transparent] md:border-[1px] hover:text-white md:hover:bg-black border-r-[1px] border-[#fff] md:border-black'
                                  onClick={() => {
-                                    clickBuyNow();
-                                    isMobile && setIsShowSizeAndColor(!isShowSizeAndColor);
+                                    if (isMobile) {
+                                       if (isShowSizeAndColor) {
+                                          clickBuyNow();
+                                          setIsShowSizeAndColor(false);
+                                       } else {
+                                          setIsShowSizeAndColor(true);
+                                       }
+                                    } else {
+                                       clickBuyNow();
+                                    }
                                  }}>
                                  Buy now
                               </button>
 
                               <button
-                                 className='w-[50%] py-2 uppercase bg-black md:bg-[transparent] md:border-[1px] border-black md:hover:text-white md:hover:bg-black'
+                                 className='w-[50%] py-3 uppercase bg-black md:bg-[transparent] md:border-[1px] border-black md:hover:text-white md:hover:bg-black'
                                  onClick={() => {
-                                    clickAddToCart();
-                                    isMobile && setIsShowSizeAndColor(!isShowSizeAndColor);
+                                    if (isMobile) {
+                                       if (isShowSizeAndColor) {
+                                          clickAddToCart();
+                                          setIsShowSizeAndColor(false);
+                                       } else {
+                                          setIsShowSizeAndColor(true);
+                                       }
+                                       setIsShowSizeAndColor(!isShowSizeAndColor);
+                                    } else {
+                                       clickAddToCart();
+                                    }
                                  }}>
                                  Add to cart
                               </button>
+                           </div>
+
+                           {/* category Name */}
+                           <div className='hidden md:block'>
+                              <p className='mb-2 mt-5'>Phân loại:</p>
+                              <RenderCategoryItem categoryName={categoryName} small />
                            </div>
                         </div>
                      </div>
                   </div>
                </div>
 
-               <div className='w-2/3'>
-                  {!isMobileScreen && (
-                     <ProductDescription
-                        description={productDetail.description}></ProductDescription>
-                  )}
-               </div>
-
-               {isShowLoading && <LoadingCocozzi />}
+               {isShowLoading && <LoadingBook365 color='black' />}
             </div>
          ) : (
             <NotFound

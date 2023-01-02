@@ -98,13 +98,13 @@ export default function PaymentMethod({userInfo, formik, toTalPrice}) {
                   <p className='flex'>
                      <span className='min-w-[220px] inline-block'>Số tài khoản thanh toán:</span>
                      <span className='font-semibold md:flex md:items-center md:gap-2'>
-                        0331000430764
-                        <PaymentCopy text='0331000430764' />
+                        0364602670
+                        <PaymentCopy text='0364602670' />
                      </span>
                   </p>
                   <p className='flex'>
                      <span className='min-w-[220px] inline-block'>Tên chủ tài khoản:</span>
-                     <span className='font-semibold inline-block'>NGUYEN HOANG DU</span>
+                     <span className='font-semibold inline-block'>LE CONG DOAN</span>
                   </p>
                   <div className='flex'>
                      <span className='min-w-[220px] inline-block'>Ngân hàng:</span>

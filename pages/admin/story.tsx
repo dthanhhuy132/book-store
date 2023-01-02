@@ -19,7 +19,7 @@ import panelApi from '../../service/panelApi';
 import slicePanelLinkName from '../../components/Admin/Product/slicePanelLinkName';
 import StoryItem from '../../components/Admin/Product/StoryItem';
 import sortDataByUpdatedTime from '../../components/Admin/common/sortDataByUpdatedTime';
-import LoadingCocozzi from '../../components/common/LoadingCocozzi';
+import LoadingBook365 from '../../components/common/LoadingBook365';
 const accessToken = Cookies.get('accessToken');
 
 export default function AdminStoryPage({storyList}) {
@@ -154,7 +154,7 @@ export default function AdminStoryPage({storyList}) {
                />
             </AdminModal>
          )}
-         {isShowLoading && <LoadingCocozzi color='black' />}
+         {isShowLoading && <LoadingBook365 color='black' />}
       </AdminLayout>
    );
 }

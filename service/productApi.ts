@@ -1,7 +1,7 @@
 import api from './api';
 
 const productApi = {
-   getProduct: ({page = 1, perPage = 4} = {}) => {
+   getProduct: ({page = 1, perPage = 5} = {}) => {
       const url = `/product/all?page=${page}&perPage=${perPage}`;
       return api.call().get(url);
    },

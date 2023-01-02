@@ -9,7 +9,11 @@ const authApi = {
    },
 
    logout: () => {
-      return api.call().delete('auth/logout');
+      return api.call().delete('/auth/logout');
+   },
+
+   getAllUser: (token) => {
+      return api.callWithToken(token).get('user/admin/getAllUser');
    },
 };
 

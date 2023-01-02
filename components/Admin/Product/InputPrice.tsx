@@ -8,7 +8,9 @@ const InputPrice = ({name, value, className, formik}) => {
 
    const handleChange = (event) => setValue(addCommas(removeNonNumeric(event.target.value)));
    function handleChangePrice() {
-      formik.values.price = Number(valueInput.split(',').join(''));
+      if (valueInput && valueInput?.indexOf(',') >= 0) {
+         formik.values.price = Number(valueInput?.split(',').join(''));
+      }
    }
    return (
       <div>

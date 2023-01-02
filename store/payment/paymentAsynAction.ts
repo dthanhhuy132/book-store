@@ -22,7 +22,6 @@ export const getAllPaymentAsync: any = createAsyncThunk(
 export const createPaymentAsyns: any = createAsyncThunk(
    'payment/createNewPaymentAsync',
    async ({accessToken, paymentData}: any) => {
-      console.log('trong async function: ', accessToken, paymentData);
       try {
          const res = await paymentApi.createPayment(accessToken, paymentData);
 

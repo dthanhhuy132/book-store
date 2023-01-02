@@ -133,7 +133,7 @@ export default function StoryAdminModal({
                      <label htmlFor=''>Link sản phẩm</label>
                      <textarea
                         name='description'
-                        placeholder='/product/ao-quan-1368174988493'
+                        placeholder='/product/hat-giong-tam-hon-1368174988493'
                         className='w-full border-2 px-2 py-1 rounded-md'
                         value={formik.values.description}
                         onChange={formik.handleChange}

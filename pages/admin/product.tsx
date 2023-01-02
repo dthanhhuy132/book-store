@@ -78,7 +78,7 @@ export default function AdminProductPage({productList, categoryList, productOrig
             formData.append('quantity', quantity);
 
             dispatch(updateProduct({accessToken, productId, formData})).then((res) => {
-               if ((res) => res.payload.ok) {
+               if (res.payload.ok) {
                   dispatch(getProductByNameAsync()).then((res) => {
                      if (res.payload.ok) {
                         setIsShowModalCreateProduct(false);
@@ -93,6 +93,7 @@ export default function AdminProductPage({productList, categoryList, productOrig
                   toast.error(
                      'có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng'
                   );
+                  setIsShowLoading(false);
                }
             });
          }
@@ -107,7 +108,7 @@ export default function AdminProductPage({productList, categoryList, productOrig
             };
 
             dispatch(updateProduct({accessToken, productId, formData})).then((res) => {
-               if ((res) => res.payload.ok) {
+               if (res.payload.ok) {
                   dispatch(getProductByNameAsync()).then((res) => {
                      if (res.payload.ok) {
                         setIsShowModalCreateProduct(false);
@@ -122,6 +123,7 @@ export default function AdminProductPage({productList, categoryList, productOrig
                   toast.error(
                      'có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng'
                   );
+                  setIsShowLoading(false);
                }
             });
          }
@@ -146,9 +148,7 @@ export default function AdminProductPage({productList, categoryList, productOrig
          formData.append('quantity', quantity);
 
          dispatch(createNewProduct({accessToken, formData})).then((res) => {
-            if (res.some((item: any) => item >= 400)) {
-               toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng');
-            } else {
+            if (res.payload.ok) {
                dispatch(getProductByNameAsync()).then((res) => {
                   if (res.payload.ok) {
                      setIsShowModalCreateProduct(false);
@@ -159,6 +159,9 @@ export default function AdminProductPage({productList, categoryList, productOrig
                      setIsShowLoading(false);
                   }
                });
+            } else {
+               setIsShowLoading(false);
+               toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại tên sản phẩm, hoặc kết nối mạng');
             }
          });
       }

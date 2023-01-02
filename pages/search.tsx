@@ -18,10 +18,11 @@ export default function SearchPage({listSearchProduct}: any) {
 
    return (
       <div className='max-w-[1200px] flex items-center flex-col mx-[auto] my-10'>
-         <p className='mb-5'>
-            Đã tìm thấy <span className='font-bold'>{listSearchProduct.length}</span> sản phẩm với
-            từ khoá
-            <span className='font-semibold'> {searchStr}</span>
+         <p className='mb-5 text-[1.1rem]'>
+            Đã tìm thấy{' '}
+            <span className='font-bold text-[1.5rem]'>{listSearchProduct.length}&#32;</span>
+            sản phẩm với từ khoá
+            <span className='font-semibold text-[1.5rem]'> {searchStr}</span>
          </p>
          <div className='px-1 md:px-0 grid grid-cols-2 md:grid-cols-4 gap-x-2 gap-y-5'>
             {listSearchProduct.map((product, index) => (

@@ -5,12 +5,13 @@ import {HomeBackground} from '../components/HomeBackground';
 import {Login} from '../components/Login';
 import {Logo} from '../components/Logo';
 import {useAppDispatch} from '../store';
-import {registerAsyncAction} from '../store/auth/authAsyncAction';
+import {loginAsyncAction, registerAsyncAction} from '../store/auth/authAsyncAction';
 
 import Cookies from 'js-cookie';
 import {getTokenExpireTime} from '../helper';
 import panelApi from '../service/panelApi';
 import {PANEL_FOR_HOME} from '../store/panel/panelSlice';
+import {getCartByUserId} from '../store/cart/cartAsynAction';
 export default function RegisterPage({homePanelList}) {
    const registerData = {
       email: '',
@@ -29,15 +30,12 @@ export default function RegisterPage({homePanelList}) {
       const {email, userNumber, password} = registerData;
       dispatch(registerAsyncAction({email, userNumber, password})).then((res) => {
          if (res.payload.ok) {
-            // router.push('/shop');
-            const userData = res.payload.data;
+            router.push('/membership');
 
-            const accessToken = res.payload.user.accessToken;
-            const expireAccessTokenDay = getTokenExpireTime(accessToken);
-
-            Cookies.set('accessToken', accessToken, {expires: expireAccessTokenDay});
+            toast.success('Tạo tài khoản thành công, vui lòng đăng nhập tài khoản của bạn!');
+            setIsShowLoading(false);
          } else {
-            toast.error(res.payload.message);
+            toast.error(`${res.payload.message}! Số tài khoản hoặc SĐT đã đăng ký!`);
             setIsShowLoading(false);
          }
       });

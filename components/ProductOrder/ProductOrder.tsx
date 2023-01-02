@@ -14,7 +14,7 @@ import {
 } from '../../store/payment/paymentAsynAction';
 import {useAppDispatch} from '../../store';
 import {parseJwt} from '../../helper';
-import LoadingCocozzi from '../common/LoadingCocozzi';
+import LoadingBook365 from '../common/LoadingBook365';
 import {toast} from 'react-toastify';
 import {useRouter} from 'next/router';
 import ProductConfirmModal from './ProductConfimModal';
@@ -64,7 +64,6 @@ export default function ProductOrder({payment, index, orderType}) {
 
    // function confirm payment
    function confirmOrder(paymentId) {
-      console.log('payment la gi', payment);
       setIsShowLoading(true);
       setIsShowConfirmProductOrder(false);
 
@@ -206,12 +205,12 @@ export default function ProductOrder({payment, index, orderType}) {
                   <div className='flex justify-between'>
                      <span>Mã giảm giá:</span>
                      <span className='ml-2 font-semibold text-[#891a1c]'>
-                        -<FormatPrice price={voucher} />
+                        -<FormatPrice price={voucher} fontSize='1.1rem' />
                      </span>
                   </div>
 
                   <div className='flex justify-between'>
-                     <span> Tổng đơn hàng</span>
+                     <span className='font-bold text-[1.1rem]'> Tổng đơn hàng</span>
                      <p className='ml-2 font-semibold font-[1.5rem]'>
                         <FormatPrice fontSize='1.2rem' price={payment.totalMoney} />
                      </p>
@@ -219,7 +218,7 @@ export default function ProductOrder({payment, index, orderType}) {
                </div>
             </div>
          </div>
-         {isShowLoading && <LoadingCocozzi color='black' />}
+         {isShowLoading && <LoadingBook365 color='black' />}
       </div>
    );
 }

@@ -63,6 +63,25 @@ export const updateProduct: any = createAsyncThunk(
    }
 );
 
+export const updateProductByPUT: any = createAsyncThunk(
+   'prodcut/updateProductByPUT',
+   async ({accessToken, productId, formData}: any) => {
+      try {
+         const res = await productApi.updateProduct(accessToken, productId, formData);
+         const data = res?.data?.data;
+
+         return {
+            ok: true,
+            data: data,
+         };
+      } catch (error) {
+         return {
+            ok: false,
+         };
+      }
+   }
+);
+
 export const saerchProductByName: any = createAsyncThunk(
    'prodcut/searchProductByName',
    async () => {
@@ -72,6 +91,24 @@ export const saerchProductByName: any = createAsyncThunk(
          return {
             ok: true,
             // data: res.data.res,
+         };
+      } catch (error) {
+         return {
+            ok: false,
+         };
+      }
+   }
+);
+
+export const getProductAsync: any = createAsyncThunk(
+   'prodcut/getProductAsync',
+   async ({page}: any) => {
+      try {
+         const res = await productApi.getProduct({page});
+
+         return {
+            ok: true,
+            data: res?.data?.data,
          };
       } catch (error) {
          return {

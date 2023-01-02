@@ -21,9 +21,6 @@ export default function HeaderUserControl({hasToken, isMobile}) {
          <ul className='capitalize py-1'>
             {hasToken && (
                <>
-                  <li className='py-1 px-2 hover:bg-[#891a1c] hover:text-white cursor-pointer'>
-                     Thông tin
-                  </li>
                   <li
                      className='py-1 px-2 hover:bg-[#891a1c] hover:text-white cursor-pointer'
                      onClick={() => router.push('/order')}>

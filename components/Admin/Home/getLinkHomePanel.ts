@@ -5,8 +5,7 @@ export default function getLinkHomePanel(homePanelDesc) {
       .slice(homePanelDesc?.indexOf('[') + 1, homePanelDesc.indexOf(']'))
       .split(',');
    // .map((str) => str.slice(str.indexOf('"') + 1, str.indexOf('"')));
-
-   return strArr;
+   return strArr.map((item) => (item != 'undefined' ? item : ''));
 }
 
 export function getLinkBannerPanel(linkBanner) {
@@ -14,5 +13,6 @@ export function getLinkBannerPanel(linkBanner) {
    let strArr = linkBanner
       ?.slice(linkBanner.indexOf('[') + 1, linkBanner.indexOf(']'))
       ?.split(spitSign);
-   return strArr;
+
+   return strArr.map((item) => (item != 'undefined' ? item : ''));
 }

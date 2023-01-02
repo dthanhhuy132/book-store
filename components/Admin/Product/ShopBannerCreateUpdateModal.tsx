@@ -142,7 +142,7 @@ export default function ShopBannerCreateUpdateModal({
                            {imgesURL.map((imgURL, index) => (
                               <div key={index}>
                                  <span>{index + 1}</span>
-                                 <img src={imgURL} alt='image' className='w-[150px]' />
+                                 <img src={imgURL} alt='image' className='h-[250px]' />
                               </div>
                            ))}
                         </div>
@@ -201,7 +201,7 @@ export default function ShopBannerCreateUpdateModal({
                            {imgesPCURL.map((imgURL, index) => (
                               <div key={index}>
                                  <span>{index + 1}</span>
-                                 <img src={imgURL} alt='image' className='w-[150px]' />
+                                 <img src={imgURL} alt='image' className='w-[200px]' />
                               </div>
                            ))}
                         </div>
@@ -258,7 +258,7 @@ export default function ShopBannerCreateUpdateModal({
                      <label htmlFor=''>Nhập link liên kết</label>
                      <textarea
                         name='link'
-                        placeholder={`1. /product/ao-quan-136817498849 \n2. /category/quan-nam \n3. /event/...`}
+                        placeholder={`1. /product/cuon-theo-chieu-gio-136817498849 \n2. /category/noi-bat-136817316324 \n3. /event/su-kien-thang-1...`}
                         className='w-full border-2 px-2 py-1 rounded-md placeholder:text-[0.9rem]'
                         value={formik.values.link}
                         onChange={formik.handleChange}

@@ -70,3 +70,21 @@ export const deleteCategoryAsync: any = createAsyncThunk(
       }
    }
 );
+
+export const getCategoryById: any = createAsyncThunk(
+   'category/getCategoryById',
+   async ({categoryId}: any) => {
+      try {
+         const res = await categoryApi.getCategoryById(categoryId);
+
+         return {
+            ok: true,
+            data: res.data.data,
+         };
+      } catch (error) {
+         return {
+            ok: false,
+         };
+      }
+   }
+);

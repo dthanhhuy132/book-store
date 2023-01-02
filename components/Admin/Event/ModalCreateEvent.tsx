@@ -166,10 +166,10 @@ export default function ModalCreateEvent({
                         <p>- Link liên kết theo số thứ tự hình</p>
                         <p>- Hình ảnh không có link liên kết Xuống dòng cho hình đó</p>
                         <p>- Số lượng link liên kết phải bằng số lượng hình ảnh</p>
-                        <p>- Link hình ảnh: 1. /product/quan-name...</p>
+                        <p>- Link hình ảnh: 1. /product/hat-giong-tam-hon...</p>
                      </div>
                      <textarea
-                        placeholder={`1. /product/ao-quan-136817498849 \n2. /category/quan-nam \n3. /event/...`}
+                        placeholder={`1. /product/hat-giong-tam-hon-136817498849 \n2. /category/sach-moi   \n3. /event/...`}
                         rows={3}
                         name='description'
                         className='w-full border-2 px-2 py-1 rounded-md placeholder:text-[0.9rem]'

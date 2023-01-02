@@ -13,10 +13,12 @@ import {parseJwt} from '../../helper';
 import Cookies from 'js-cookie';
 import {addCartItem, getCartByUserId, removeCartItemAsync} from '../../store/cart/cartAsynAction';
 import {useAppDispatch, useAppSelector} from '../../store';
-import LoadingCocozzi from '../common/LoadingCocozzi';
+import LoadingBook365 from '../common/LoadingBook365';
 import {toast} from 'react-toastify';
 import {getProductByNameAsync} from '../../store/product/productAsynAction';
 import {useDebounce} from 'use-debounce';
+import {useRouter} from 'next/router';
+import stringToSlug from '../../helper/stringToSlug';
 
 // import Dropdown from 'react-dropdown';
 
@@ -29,6 +31,7 @@ export default function BagItem({productCart}) {
    const {isMobile} = useWindowDimensions();
 
    const dispatch = useAppDispatch();
+   const router = useRouter();
 
    // get all productBy group Name -> reselect size and color or compare quantity ()
    // -> get product quantity => to compare maximum number
@@ -92,7 +95,14 @@ export default function BagItem({productCart}) {
          if (res.payload.ok) {
             dispatch(addCartItem({accessToken, cartData})).then((res) => {
                if (res.payload.ok) {
-                  dispatch(getCartByUserId({accessToken, userId}));
+                  dispatch(getCartByUserId({accessToken, userId})).then((res) => {
+                     if (res.payload.ok) {
+                        setIsShowLoading(false);
+                     } else {
+                        setIsShowLoading(false);
+                        toast.info('Vui lòng tải lại trang để cập nhật');
+                     }
+                  });
                } else {
                   const message = res.payload.message;
                   if (message == 'amount < quantity') {
@@ -163,7 +173,10 @@ export default function BagItem({productCart}) {
                   <img
                      src={productCart?.product?.pictures[0]}
                      alt=''
-                     className='w-[80px] rounded-md'
+                     className='w-[80px] rounded-md cursor-pointer'
+                     onClick={() =>
+                        router.push(`/product/${stringToSlug(productCart?.product.name)}`)
+                     }
                   />
                   <div className={`${isMobile && 'flex flex-col flex-1 gap-1'}`}>
                      <div className='text-[0.9rem] '>
@@ -171,20 +184,6 @@ export default function BagItem({productCart}) {
                         <p className='whitespace-pre-line font-bold'>
                            {uppercaseFirstLetter(productCart?.product.name)}
                         </p>
-                        {/* product color + size */}
-                        <div className='flex gap-5'>
-                           <div className='flex gap-2 items-center min-w-[60px]'>
-                              <span>Size: </span>
-
-                              <span className='font-bold'>{productCart?.product?.size}</span>
-                           </div>
-                           <div className='flex gap-2 items-center'>
-                              <span>Color: </span>{' '}
-                              <div
-                                 className='w-[30px] h-[16px]'
-                                 style={{backgroundColor: productCart.productSelectColor}}></div>
-                           </div>
-                        </div>
                      </div>
 
                      {/* price and quantity */}
@@ -206,7 +205,7 @@ export default function BagItem({productCart}) {
                   </div>
 
                   {/* --------------> is show loading when update/delete cart */}
-                  {isShowLoading && <LoadingCocozzi color='grey' />}
+                  {isShowLoading && <LoadingBook365 color='grey' />}
                </div>
             </td>
             <td className={`${isMobile && 'hidden'} px-5 font-bold border-b pb-3 border-black`}>

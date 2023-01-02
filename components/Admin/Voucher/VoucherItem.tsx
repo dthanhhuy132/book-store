@@ -11,6 +11,7 @@ import {deleteVoucherAsync, getAllVoucherAsync} from '../../../store/voucher/vou
 
 import Cookies from 'js-cookie';
 import {toast} from 'react-toastify';
+import FormatPrice from '../../../helper/FormatPrice';
 const accessToken = Cookies.get('accessToken');
 
 export default function VoucherItem({voucher, handleClickEditVoucher}: any) {
@@ -53,7 +54,11 @@ export default function VoucherItem({voucher, handleClickEditVoucher}: any) {
 
             <p>
                <span className='font-bold'>Khuyến mãi: </span>
-               <span className='font-extrabold text-blue-600'>{voucher.percent}%</span>
+               {voucher.percent > 100 ? (
+                  <FormatPrice price={voucher.percent} fontSize='1.1rem' />
+               ) : (
+                  <span className='font-extrabold text-blue-600'>{voucher.percent}%</span>
+               )}
             </p>
 
             <p>

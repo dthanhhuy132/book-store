@@ -19,6 +19,8 @@ import LoadingActionPage from '../../components/common/LoadingPage';
 import {toast} from 'react-toastify';
 import HomeAdminModalCreateUpdate from '../../components/Admin/Home/HomeAdminModalCreateUpdate';
 import HomePanaleItem from '../../components/Admin/Home/HomePanelItem';
+import LoadingBook365 from '../../components/common/LoadingBook365';
+import categoryApi from '../../service/categoryApi';
 
 const accessToken = Cookies.get('accessToken');
 
@@ -34,6 +36,7 @@ export default function AdminHomePage({homePanelList}) {
    // get data from redux
    const {panelForHomeState} = useAppSelector((state) => state.panel);
    const [editingHome, setEditingHome] = useState(null);
+
    // function add new panel
    function handleCreateUpdateHome(homePanel) {
       setIsShowLoading(true);
@@ -51,24 +54,40 @@ export default function AdminHomePage({homePanelList}) {
 
             // change variable name
             dispatch(udpatePanelAsync({accessToken, panelId, data})).then((res) => {
-               if (res.payload.ok) {
-                  dispatch(getAllPanelAsync());
-                  setIsShowModalHomePanel(false);
-               } else {
-                  toast.error(res.payload.message);
-               }
                setIsShowLoading(false);
+               if (res.payload.ok) {
+                  dispatch(getAllPanelAsync()).then((res) => {
+                     if (res.payload.ok) {
+                        setIsShowModalHomePanel(false);
+                        setIsShowLoading(false);
+                     } else {
+                        toast.info('Vui lòng tải lại trang để cập nhật sản phẩm');
+                        setIsShowLoading(false);
+                     }
+                  });
+                  setIsShowModalHomePanel(false);
+                  toast.error(res.payload.message);
+                  setIsShowLoading(false);
+               }
             });
          } else {
             const data = {description};
             dispatch(udpatePanelAsync({accessToken, panelId, data})).then((res) => {
-               if (res.payload.ok) {
-                  dispatch(getAllPanelAsync());
-                  setIsShowModalHomePanel(false);
-               } else {
-                  toast.error(res.payload.messsage);
-               }
                setIsShowLoading(false);
+               if (res.payload.ok) {
+                  dispatch(getAllPanelAsync()).then((res) => {
+                     if (res.payload.ok) {
+                        setIsShowModalHomePanel(false);
+                        setIsShowLoading(false);
+                     } else {
+                        toast.info('Vui lòng tải lại trang để cập nhật sản phẩm');
+                        setIsShowLoading(false);
+                     }
+                  });
+                  setIsShowModalHomePanel(false);
+                  toast.error(res.payload.message);
+                  setIsShowLoading(false);
+               }
             });
          }
       } else {
@@ -80,11 +99,19 @@ export default function AdminHomePage({homePanelList}) {
          dispatch(createPanelAsyns({accessToken, formData})).then((res) => {
             setIsShowLoading(false);
             if (res.payload.ok) {
-               dispatch(getAllPanelAsync());
-            } else {
+               dispatch(getAllPanelAsync()).then((res) => {
+                  if (res.payload.ok) {
+                     setIsShowModalHomePanel(false);
+                     setIsShowLoading(false);
+                  } else {
+                     toast.info('Vui lòng tải lại trang để cập nhật sản phẩm');
+                     setIsShowLoading(false);
+                  }
+               });
+               setIsShowModalHomePanel(false);
                toast.error(res.payload.message);
+               setIsShowLoading(false);
             }
-            setIsShowLoading(false);
          });
       }
    }
@@ -153,7 +180,7 @@ export default function AdminHomePage({homePanelList}) {
             </AdminModal>
          )}
 
-         {isShowLoading && <LoadingActionPage />}
+         {isShowLoading && <LoadingBook365 />}
       </AdminLayout>
    );
 }
@@ -162,9 +189,11 @@ export const getServerSideProps: GetServerSideProps<any> = async () => {
    let homeImageList;
 
    try {
-      const response = await panelApi.getAllPanel();
-      const homePanelRes = response?.data?.data;
-      homeImageList = homePanelRes.filter(
+      const homePanelRes = await panelApi.getAllPanel();
+
+      const homePanelData = homePanelRes?.data?.data;
+
+      homeImageList = homePanelData.filter(
          (item) => item?.status !== 'cancel' && item?.pictures?.length > 0
       );
    } catch (error) {}

@@ -69,14 +69,14 @@ export default function BannerShopItem({
             </div>
          </div>
          <div key={homePanel._id} className='flex flex-col gap-2 whitespace-nowrap'>
-            <div className='flex'>
+            <div className='flex gap-1'>
                {homePanel?.pictures?.length > 0 &&
                   homePanel.pictures.slice(0, homePanel.pictures.length / 2).map((pic, index) => (
-                     <div className='flex flex-col gap-1 my-2' key={pic}>
-                        <img src={pic} alt='Hình ảnh panel'></img>
+                     <div className='flex flex-col my-2' key={pic}>
+                        <img src={pic} alt='Hình ảnh panel' className='h-[300px]'></img>
                         <span className='font-bold'>Link liên kết:</span>
                         {getLinkBannerPanel(homePanelLink)[index] && (
-                           <div className='flex text-[0.9rem] px-2'>
+                           <div className='flex text-[0.9rem]'>
                               <p className='whitespace-pre-wrap'>
                                  {getLinkBannerPanel(homePanelLink)[index]}
                               </p>

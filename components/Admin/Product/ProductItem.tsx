@@ -16,7 +16,7 @@ import Cookies from 'js-cookie';
 import {getProductByNameAsync} from '../../../store/product/productAsynAction';
 import CopyProductSlug from './copyProductSlug';
 import stringToSlug from '../../../helper/stringToSlug';
-import LoadingCocozzi from '../../common/LoadingCocozzi';
+import LoadingBook365 from '../../common/LoadingBook365';
 import productSortSize from './productSorSize';
 
 export default function ProductItem({product, handleClickEditProduct, renderProductList}: any) {
@@ -138,7 +138,7 @@ export default function ProductItem({product, handleClickEditProduct, renderProd
                title={`Bạn có muốn xóa sản phẩm: ${product.name}`}></AdminModal>
          )}
 
-         {isShowLoading && <LoadingCocozzi color='black' />}
+         {isShowLoading && <LoadingBook365 color='black' />}
       </>
    );
 }

@@ -39,7 +39,7 @@ export default function BagHover({cartUserState}) {
                <div className='flex justify-between font-thin mt-1'>
                   <p className='capitalize'>Total</p>
                   <p className='flex items-end gap-1 font-bold text-[1.1rem]'>
-                     <FormatPrice price={totalPrice} />
+                     <FormatPrice price={totalPrice} fontSize='1.2rem' />
                   </p>
                </div>
                <Link href={'/payment'}>

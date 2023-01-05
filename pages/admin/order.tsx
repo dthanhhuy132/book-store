@@ -43,8 +43,6 @@ export default function AdminOrderPage({paymentList}) {
       setRenderPayment(filterOrder);
    }, [paymentType]);
 
-   console.log('render product thì ra gi', renderPayment);
-
    return (
       <AdminLayout>
          <div className='w-2/3 mx-auto'>

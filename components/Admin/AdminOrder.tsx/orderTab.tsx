@@ -2,7 +2,12 @@ import {MdFiberNew} from 'react-icons/md';
 import {GiConfirmed, GiCancel} from 'react-icons/gi';
 import {useEffect, useState} from 'react';
 
-export default function OrderTab({paymentType = 'await', setPaymentType, small = false, allOrder}) {
+export default function OrderTab({
+   paymentType = 'await',
+   setPaymentType,
+   small = false,
+   allOrder = [],
+}) {
    const tabOrder = [
       {
          name: 'Đang chờ',

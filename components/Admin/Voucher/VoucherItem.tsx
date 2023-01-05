@@ -76,8 +76,11 @@ export default function VoucherItem({voucher, handleClickEditVoucher}: any) {
          <div className='mt-5'>
             <div className='flex justify-between mt-2'>
                <AdminButton
-                  // click={() => handleClickEditVoucher(voucher)}
-                  click={() => {}}
+                  click={() => {
+                     console.log('voucher click la gi', voucher);
+                     handleClickEditVoucher(voucher);
+                  }}
+                  // click={() => {}}
                   className='py-[4px] w-[80px] flex justify-center'>
                   <AiTwotoneEdit fontSize='1rem' />
                   Edit

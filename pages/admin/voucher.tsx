@@ -35,8 +35,15 @@ export default function VoucherPage({activeVoucherList}) {
       // update voucher
       if (voucher.id) {
          const voucherId = voucher.id;
-         delete voucher.id;
-         dispatch(updateVoucherAsync({accessToken, voucherId, voucher})).then((res) => {
+         const newVoucher = {
+            amount: voucher.amount,
+            code: voucher.code,
+            description: voucher.description,
+            endDate: voucher.endDate,
+            percent: voucher.percent,
+            startDate: voucher.startDate,
+         };
+         dispatch(updateVoucherAsync({accessToken, voucherId, voucher: newVoucher})).then((res) => {
             if (res.payload.ok) {
                dispatch(getAllVoucherAsync());
                setIsShowVoucherModal(false);

@@ -205,6 +205,15 @@ export default function Header({categoryList, eventList}) {
             handleCloseMenu={() => setShowMenuRps(false)}
             isShowMenuRps={isShowMenuRps}
          />
+
+         <div
+            className='zalo-chat-widget'
+            data-oaid='198857796279680334'
+            data-welcome-message='Rất vui khi được hỗ trợ bạn!'
+            data-autopopup='0'
+            data-width='300'
+            data-height='300'
+         />
       </>
    );
 }

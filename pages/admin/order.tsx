@@ -11,7 +11,6 @@ import {setAllPaymentForAdminState} from '../../store/payment/paymentSlice';
 import sortDataByUpdatedTime from '../../components/Admin/common/sortDataByUpdatedTime';
 
 export default function AdminOrderPage({paymentList}) {
-   console.log('paymentList', paymentList);
    // console.log('paymentList', paymentList);
    const dispatch = useAppDispatch();
 
@@ -23,9 +22,9 @@ export default function AdminOrderPage({paymentList}) {
    const [renderPayment, setRenderPayment] = useState(allPaymentAmdminState || paymentList);
    const [paymentType, setPaymentType] = useState('await');
 
-   useEffect(() => {
-      console.log('chay vao get new confirm');
+   // number of each order type:
 
+   useEffect(() => {
       if (!allPaymentAmdminState) {
          dispatch(setAllPaymentForAdminState(paymentList));
       } else if (allPaymentAmdminState.length > 0) {
@@ -38,19 +37,24 @@ export default function AdminOrderPage({paymentList}) {
    }, [allPaymentAmdminState]);
 
    useEffect(() => {
-      console.log('paymentType', renderPayment);
       const filterOrder = allPaymentAmdminState
          ? allPaymentAmdminState?.filter((payment) => payment.orderStatus === paymentType)
          : paymentList?.filter((payment) => payment.orderStatus === paymentType);
       setRenderPayment(filterOrder);
    }, [paymentType]);
 
+   console.log('render product thì ra gi', renderPayment);
+
    return (
       <AdminLayout>
          <div className='w-2/3 mx-auto'>
             {/* tab cho nay */}
             <div className='mb-5'>
-               <OrderTab setPaymentType={setPaymentType} paymentType={paymentType} />
+               <OrderTab
+                  setPaymentType={setPaymentType}
+                  paymentType={paymentType}
+                  allOrder={allPaymentAmdminState || paymentList}
+               />
             </div>
             {renderPayment?.length > 0 ? (
                <div className='flex flex-col gap-3'>

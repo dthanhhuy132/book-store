@@ -23,19 +23,23 @@ export default function EventTableBody({eventItem, handleClickEditEvent, renderE
    function handleDeleteEvent() {
       const eventId = eventItem._id;
       console.log(eventId);
+      setIsShowLoading(true);
 
       if (renderEventList.length === 1) {
          toast.warning('Không thể xóa Event duy nhất này -> Hãy cập nhật lại event');
          setIsShowModalDelete(false);
+         setIsShowLoading(false);
+
          return;
       }
       dispatch(deleteEventAsync({accessToken, eventId})).then((res) => {
          if (res.payload.ok) {
             dispatch(getAllEventAsync());
+            setIsShowLoading(false);
          } else {
             toast.error(res.payload.message);
+            setIsShowLoading(false);
          }
-         setIsShowLoading(false);
          setIsShowModalDelete(false);
       });
    }

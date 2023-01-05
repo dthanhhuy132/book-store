@@ -72,10 +72,11 @@ export default function AdminEventPage({eventList}) {
                if (res.payload.ok) {
                   dispatch(getAllEventAsync());
                   setIsShowModalCreateUpdateEvent(false);
+                  setIsShowLoading(false);
                } else {
                   toast.error(res.payload.message);
+                  setIsShowLoading(false);
                }
-               setIsShowLoading(false);
             });
          } else {
             // is not change image
@@ -92,10 +93,11 @@ export default function AdminEventPage({eventList}) {
                if (res.payload.ok) {
                   dispatch(getAllEventAsync());
                   setIsShowModalCreateUpdateEvent(false);
+                  setIsShowLoading(false);
                } else {
                   toast.error(res.payload.messsage);
+                  setIsShowLoading(false);
                }
-               setIsShowLoading(false);
             });
          }
       }

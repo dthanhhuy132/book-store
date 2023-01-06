@@ -51,7 +51,7 @@ export default function ModalCreateEvent({
             startDate: values.startDate,
             endDate: values.endDate,
             status: true,
-            percent: 10,
+            percent: values.percent,
             images: imageFiles,
             id: editingEvent?._id || null,
             isChangeImage: isChangeImage,

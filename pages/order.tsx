@@ -42,7 +42,9 @@ export default function MyOrderPage({paymentList}) {
    return (
       <div className='flex flex-col gap-5 py-2 px-2 w-full md:w-1/2 md:mx-auto mb-2'>
          <div className='flex flex-col md:flex-row items-center justify-between'>
-            <h2 className='font-bold text-[2rem]'>Thông tin đơn hàng</h2>
+            <h2 className='font-bold text-[1rem] md:text-[1.2rem] lg:text-[1.5rem]'>
+               Thông tin đơn hàng
+            </h2>
             <OrderTab paymentType={orderType} setPaymentType={setOrderType} small={true}></OrderTab>
          </div>
 

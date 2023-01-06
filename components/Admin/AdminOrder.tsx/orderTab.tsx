@@ -1,6 +1,7 @@
 import {MdFiberNew} from 'react-icons/md';
 import {GiConfirmed, GiCancel} from 'react-icons/gi';
 import {useEffect, useState} from 'react';
+import {useRouter} from 'next/router';
 
 export default function OrderTab({
    paymentType = 'await',
@@ -8,6 +9,7 @@ export default function OrderTab({
    small = false,
    allOrder = [],
 }) {
+   const router = useRouter();
    const tabOrder = [
       {
          name: 'Đang chờ',
@@ -60,7 +62,12 @@ export default function OrderTab({
                      }}>
                      <tab.icon />
                      <a href='#' className='' aria-current='page'>
-                        {tab.name}({quantityOfOrderType[tab.status]})
+                        {tab.name}
+                        <span>
+                           {router.pathname.indexOf('admin') >= 0
+                              ? `(${quantityOfOrderType[tab.status]})`
+                              : ''}
+                        </span>
                      </a>
                   </li>
                );
